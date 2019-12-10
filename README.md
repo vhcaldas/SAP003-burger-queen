@@ -127,7 +127,7 @@ este _backlog_ que é o resultado do seu trabalho com o cliente até hoje.
 
 ***
 
-#### [História de usuário 1] Cliente deve poder anotar o seu pedido
+#### [História de usuário 1] Garçom/Garçonete deve poder anotar o seu pedido
 
 Eu como cliente quero poder anotar o meu pedido saber o valor de cada 
 produto e poder enviar o pedido para a cozinha para ser preparado.
@@ -283,6 +283,7 @@ O acordado abaixo deve acontecer para dizer que a história está terminada:
 #### HU 1: Anotar pedidos
 
 * [ ] Digitar o nome do cliente.
+* [ ] Digitar a mesa.
 * [ ] Filtrar _menu_ para _café da manhã_ e _almoço/jantar_.
 * [ ] Adicionar item ao pedido.
 * [ ] Excluir item do pedido.
