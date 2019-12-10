@@ -311,13 +311,13 @@ O acordado abaixo deve acontecer para dizer que a história está terminada:
 * [ ] Segue as recomendações de PWAs.
 * [ ] Funciona bem offline.
 
-## HU 4: Perfil do Usuário
+#### HU 4: Perfil do Usuário
 
 * [ ] Criar login e senha.
 * [ ] Criar tipo de usuário (cozinha / salão).
 * [ ] Entrar na tela correta para cada usuário.
 
-## Testes
+#### Testes
 
 * [ ] 100% de cobertura de _statements_.
 * [ ] 100% de cobertura de _functions_.
