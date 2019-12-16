@@ -1,11 +1,11 @@
 import React from 'react';
 
 function Button (props) {
-    return (
-      <button className='Button'>
-        {props.title}
-      </button>
-    )
+  return (
+    <button onclick= {props.handleClick} className='Button'>
+      {props.title}
+    </button>
+  )
 }
 
 export default Button;
