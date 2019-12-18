@@ -9,6 +9,6 @@ const Order = (props) =>{
             className="list" 
         />
     );
-} 
+}   
 
 export default Order;

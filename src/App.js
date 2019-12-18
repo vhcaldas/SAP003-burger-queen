@@ -1,15 +1,29 @@
-import React, { useState, useEffect} from 'react';
-import firebase from '../src/Utils/firebaseUtil';
+import React, { useState, useEffect } from 'react';
+import {db} from './Utils/firebaseUtil';
 
 function App() {
+
+  const [menu, setMenu] = useState([]);
+
   useEffect(() => {
-    firebase.collection('menu').get()
-      .then((docs) => {
-        docs.map(doc => {
-          console.log(doc.data())
-        });
-      });
-  }, []);
+    db.collection('Menu').get()
+    .then(querySnapshot => {
+      const productsResult = [];
+      querySnapshot.forEach((doc) => {
+      productsResult.push(doc.data())
+    });
+      setMenu(productsResult);
+  })}, []);
+
+  console.log(menu);
+  console.log(setMenu); 
+
+  return (
+    <div>Vivian</div>
+    
+
+  )
+
 }
 
 export default App;
