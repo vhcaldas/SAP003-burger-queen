@@ -1,9 +1,10 @@
 import React from 'react';
+import Logo from './Header.png';
 
-const Header = (props) => {
+const Header = () => {
     return (
-        <header className={`header ${scrollStyle} ${shadowStyle}`}>
-            <div className='logo'>{props.logo}</div>
+        <header className='header'>
+            <img src = {Logo} alt="Logo App"/>
             <nav>
                 <li className="link-item">home</li>
                 <li className="link-item">about</li>
