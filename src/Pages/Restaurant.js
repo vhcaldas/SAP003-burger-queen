@@ -1,33 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { db } from './Utils/firebaseUtil';
-import Card from './Card'
+import { db } from '../firebaseUtil.js';
+import Card from '../Components/Card.js';
 
 const Restaurant = () => {
 
-    const[menu, setMenu] = useState([])
+    const[menu, setMenu] = useState([]);
 
     useEffect(() => {
         db.collection("Menu").get()
-            .then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-                setMenu((currentState) => 
-                    [...currentState, doc.data()]
-                );
+            .then((querySnapshot) => {
+                querySnapshot.forEach(function(doc) {
+                    setMenu((currentState) =>
+                        [...currentState, doc.data()]
+                    )
+                });
             });
-        });
-    }, [])
-
-    console.log(menu);
+        }, []);
 
     return (
-        <div>
+        <main>
             {menu.map(menuItem => 
                 <Card 
                 name={menuItem.name} 
                 price={menuItem.price} 
                 handleClick={() => console.log(menuItem)}/>    
             )}
-        </div>
+        </main>
     )
 }
 
