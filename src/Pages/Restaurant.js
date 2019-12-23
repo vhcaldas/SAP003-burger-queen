@@ -77,9 +77,9 @@ const Restaurant = () => {
 }
 
 const styles = StyleSheet.create({
-    main:{
-        fontFamily: ['Montserrat Alternates', 'sans-serif'],
-        src: "url('https://fonts.googleapis.com/css?family=Montserrat+Alternates&display=swap')"
+    main: {
+        fontFamily: 'Montserrat Alternates',
+        src: "url('https://fonts.googleapis.com/css?family=Montserrat+Alternates&display=swap')",
     },
 })
 
