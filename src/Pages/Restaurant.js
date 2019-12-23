@@ -26,50 +26,51 @@ const Restaurant = () => {
             <main className={css(styles.main)}>
                 <section className={css(styles.options)}>
                     <h1>CAFÉ DA MANHÃ:</h1>            
-                        {menu.map(menuItem => { 
-                            return menuItem.breakfast ? (
-                                <Card 
-                                name={menuItem.name} 
-                                price={menuItem.price} 
-                                handleClick={() => console.log(menuItem)}/>
-                            ) : (
-                            false
-                            );
-                        })}
+                    {menu.map(menuItem => { 
+                        return menuItem.breakfast ? (
+                            <Card 
+                            name={menuItem.name} 
+                            price={menuItem.price} 
+                            handleClick={() => console.log(menuItem)}/>
+                        ) : (
+                        false
+                        );
+                    })}
                     <h1>DEMAIS OPÇÕES:</h1>
-                        <h2>Hambúrgueres:</h2>
-                            {menu.map(menuItem => { 
-                                return menuItem.burguer ? (
-                                    <Card 
-                                    name={menuItem.name} 
-                                    price={menuItem.price} 
-                                    handleClick={() => console.log(menuItem)}/>
-                                ) : (
-                                false
-                                );
-                            })}
-                        <h2>Acompanhamentos:</h2>
-                            {menu.map(menuItem => { 
-                                return menuItem.sidedish ? (
-                                    <Card 
-                                    name={menuItem.name} 
-                                    price={menuItem.price} 
-                                    handleClick={() => console.log(menuItem)}/>
-                                ) : (
-                                false
-                                );
-                            })}
-                        <h2>Bebidas:</h2>
-                            {menu.map(menuItem => { 
-                                return menuItem.beverage ? (
-                                    <Card 
-                                    name={menuItem.name} 
-                                    price={menuItem.price} 
-                                    handleClick={() => console.log(menuItem)}/>
-                                ) : (
-                                false
-                                );
-                            })}
+                    <h2>Hambúrgueres:</h2>
+                    {menu.map(menuItem => { 
+                        return menuItem.burguer ? (
+                            <Card 
+                            name={menuItem.name} 
+                            price={menuItem.price} 
+                            handleClick={() => console.log(menuItem)}/>
+                        ) : (
+                        false
+                        );
+                    }
+                    )}
+                    <h2>Acompanhamentos:</h2>
+                    {menu.map(menuItem => { 
+                        return menuItem.sidedish ? (
+                            <Card 
+                            name={menuItem.name} 
+                            price={menuItem.price} 
+                            handleClick={() => console.log(menuItem)}/>
+                        ) : (
+                        false
+                        );
+                    })}
+                    <h2>Bebidas:</h2>
+                    {menu.map(menuItem => { 
+                        return menuItem.beverage ? (
+                            <Card 
+                            name={menuItem.name} 
+                            price={menuItem.price} 
+                            handleClick={() => console.log(menuItem)}/>
+                        ) : (
+                        false
+                        );
+                    })}
                 </section>
             </main>
         </div>
@@ -78,9 +79,17 @@ const Restaurant = () => {
 
 const styles = StyleSheet.create({
     main: {
-        fontFamily: 'Montserrat Alternates',
+        fontFamily: "Montserrat Alternates",
         src: "url('https://fonts.googleapis.com/css?family=Montserrat+Alternates&display=swap')",
+        display: 'flex',
+        flexFlow: ['row', 'wrap'],
     },
+
+    options:{
+        display: 'flex',
+        flexDirection: 'row',
+        order: '<integer>'
+    }
 })
 
 export default Restaurant
