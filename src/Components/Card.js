@@ -3,10 +3,10 @@ import { StyleSheet, css } from 'aphrodite';
 
 const Card = (props) => {
     return (
-        <section onClick= {props.handleClick} className={css(styles.card)}>
+        <div onClick= {props.handleClick} className={css(styles.card)}>
             <p>{props.name}</p>
             <p>{props.price}</p>
-        </section>
+        </div>
     )
 }
 
