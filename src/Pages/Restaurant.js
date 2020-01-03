@@ -3,27 +3,23 @@ import { StyleSheet, css } from 'aphrodite';
 import { db } from '../Utils/firebaseUtil.js';
 import Card from '../Components/Card.js';
 import Header from '../Components/Header/Header.js';
-import Button from '../Components/Button'
-
+import Button from '../Components/Button';
 
 const Restaurant = () => {
 
-    const [breakfast, setBreakfast] = useState([]);
-    const [otherOptions, setOtherOptions] = useState([]);
+    const [menu, setMenu] = useState([]);
+    
     useEffect(() => {
         db.collection("Menu").get()
             .then((querySnapshot) => {
-                querySnapshot.forEach(function(doc) {
-                    setBreakfast((currentState) =>
-                        [...currentState, doc.data()]
-                    )
-                    setOtherOptions((currentState) =>
-                        [...currentState, doc.data()]
-                    )
-                });
+                const itens = querySnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+                return setMenu(itens)
             });
-        }, []);
-
+            }, []);
+            
     return (
         <div>
             <Header/>
@@ -32,7 +28,7 @@ const Restaurant = () => {
                 </section>
                 <section className={css(styles.secOptions)}>
                     <Button
-                    handleClick = {() => breakfast.map(menuItem => { 
+                    handleClick = {() => menu.map(menuItem => { 
                         return menuItem.breakfast ? (
                             <Card 
                             name={menuItem.name} 
@@ -45,7 +41,7 @@ const Restaurant = () => {
                         title='Café da Manhã'/>
 
                     <Button
-                    handleClick = {() => otherOptions.map(menuItem => { 
+                    handleClick = {() => menu.map(menuItem => { 
                         return menuItem.other ? (
                             <Card 
                             name={menuItem.name} 
