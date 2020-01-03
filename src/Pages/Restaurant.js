@@ -8,10 +8,10 @@ import Order from '../Components/Order';
 
 const Restaurant = () => {
 
-    const[menu, setMenu] = useState([]);
+    const [menu, setMenu] = useState([]);
     const [client, setClient] = useState();
     const [table, setTable] = useState();
-    const [order, setOrder] = useState();
+    const [order, setOrder] = useState([npm i react-loading react-lottie react-fade-in bootstrap]);
     const [total, setTotal] = useState();
 
     useEffect(() => {
@@ -25,7 +25,6 @@ const Restaurant = () => {
             });
         }, []);
 
-        const takeOrder = () => {
             if(client && table) {
                 db.collection("Pedidos").add({
                     client,
@@ -40,7 +39,6 @@ const Restaurant = () => {
                     setTotal('')
                 })
             }
-        }
 
     return (
         <div>
@@ -106,10 +104,14 @@ const Restaurant = () => {
                         );
                     })}
                 </section>
-                <section>
-                    <Order/>
-
-                </section>
+                <aside>
+                    <Order
+                        client = {setClient}
+                        table= {setTable} 
+                        order= {setOrder} 
+                        total= {setTotal} 
+                    />
+                </aside>
             </main>
         </div>
     )
