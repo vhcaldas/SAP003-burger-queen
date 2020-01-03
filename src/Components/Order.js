@@ -6,7 +6,7 @@ const Order = (props) =>{
             table={props.table} 
             order={props.order} 
             total={props.total} 
-            dateHour={props.dateHour} 
+            datehour={props.dateHour} 
         />
     )
 }

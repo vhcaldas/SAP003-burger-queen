@@ -3,62 +3,36 @@ import { StyleSheet, css } from 'aphrodite';
 import { db } from '../Utils/firebaseUtil.js';
 import Card from '../Components/Card.js';
 import Header from '../Components/Header/Header.js';
-import Input from '../Components/Input';
-import Order from '../Components/Order';
+import Button from '../Components/Button'
+
 
 const Restaurant = () => {
 
-    const [menu, setMenu] = useState([]);
-    const [client, setClient] = useState();
-    const [table, setTable] = useState();
-    const [order, setOrder] = useState([npm i react-loading react-lottie react-fade-in bootstrap]);
-    const [total, setTotal] = useState();
-
+    const [breakfast, setBreakfast] = useState([]);
+    const [otherOptions, setOtherOptions] = useState([]);
     useEffect(() => {
         db.collection("Menu").get()
             .then((querySnapshot) => {
                 querySnapshot.forEach(function(doc) {
-                    setMenu((currentState) =>
+                    setBreakfast((currentState) =>
+                        [...currentState, doc.data()]
+                    )
+                    setOtherOptions((currentState) =>
                         [...currentState, doc.data()]
                     )
                 });
             });
         }, []);
 
-            if(client && table) {
-                db.collection("Pedidos").add({
-                    client,
-                    table,
-                    order: order,
-                    total: total,
-                    dateHour: new Date().toLocaleString('pt-BR'),
-                }).then (() => {
-                    setClient('')
-                    setTable('')
-                    setOrder([])
-                    setTotal('')
-                })
-            }
-
     return (
         <div>
             <Header/>
             <main className={css(styles.main)}>
                 <section className={css(styles.secInput)}>
-                    <Input placeholder={'Nome do Cliente'}  
-                        className='input'
-                        type={'text'}
-                        value={client}
-                        onChange={(event) => {setClient(event.currentTarget.value)}}/>
-                    <Input placeholder={'Mesa'}  
-                        className='input'
-                        type={'number'}
-                        value={table}
-                        onChange={(event) =>{setTable(event.currentTarget.value)}}/>
                 </section>
                 <section className={css(styles.secOptions)}>
-                    <h1>CAFÉ DA MANHÃ:</h1>            
-                    {menu.map(menuItem => { 
+                    <Button
+                    handleClick = {() => breakfast.map(menuItem => { 
                         return menuItem.breakfast ? (
                             <Card 
                             name={menuItem.name} 
@@ -67,23 +41,12 @@ const Restaurant = () => {
                         ) : (
                         false
                         );
-                    })}
-                    <h1>DEMAIS OPÇÕES:</h1>
-                    <h2>Hambúrgueres:</h2>
-                    {menu.map(menuItem => { 
-                        return menuItem.burguer ? (
-                            <Card 
-                            name={menuItem.name} 
-                            price={menuItem.price} 
-                            handleClick={() => console.log(menuItem)}/>
-                        ) : (
-                        false
-                        );
-                    }
-                    )}
-                    <h2>Acompanhamentos:</h2>
-                    {menu.map(menuItem => { 
-                        return menuItem.sidedish ? (
+                        })}
+                        title='Café da Manhã'/>
+
+                    <Button
+                    handleClick = {() => otherOptions.map(menuItem => { 
+                        return menuItem.other ? (
                             <Card 
                             name={menuItem.name} 
                             price={menuItem.price} 
@@ -92,26 +55,8 @@ const Restaurant = () => {
                         false
                         );
                     })}
-                    <h2>Bebidas:</h2>
-                    {menu.map(menuItem => { 
-                        return menuItem.beverage ? (
-                            <Card 
-                            name={menuItem.name} 
-                            price={menuItem.price} 
-                            handleClick={() => console.log(menuItem)}/>
-                        ) : (
-                        false
-                        );
-                    })}
+                    title='Demais Opções'/>
                 </section>
-                <aside>
-                    <Order
-                        client = {setClient}
-                        table= {setTable} 
-                        order= {setOrder} 
-                        total= {setTotal} 
-                    />
-                </aside>
             </main>
         </div>
     )
