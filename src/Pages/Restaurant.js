@@ -7,19 +7,28 @@ import Button from '../Components/Button';
 
 const Restaurant = () => {
 
+    const [type, setType] = useState([]);
     const [menu, setMenu] = useState([]);
     
     useEffect(() => {
-        db.collection("Menu").get()
-            .then((querySnapshot) => {
-                const itens = querySnapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    ...doc.data()
+        db.collection("Menu")
+            .get()
+            .then((snapshot) => {
+                const findMenu = snapshot.docs.map((elem) =>({
+                    id: elem.id, 
+                    ...elem.data()
                 }));
-                return setMenu(itens)
-            });
-            }, []);
-            
+                setMenu(findMenu);
+            })
+    });
+
+    const filterMeal = (event) => {
+        const meal = event.target.id
+        const validate = (meal === 'breakfast') ? true : false 
+        const filteredMenu = menu.filter((elem) => elem.breakfast === validate);
+        return setType(filteredMenu);
+    }
+    
     return (
         <div>
             <Header/>
@@ -28,30 +37,21 @@ const Restaurant = () => {
                 </section>
                 <section className={css(styles.secOptions)}>
                     <Button
-                    handleClick = {() => menu.map(menuItem => { 
-                        return menuItem.breakfast ? (
-                            <Card 
-                            name={menuItem.name} 
-                            price={menuItem.price} 
-                            handleClick={() => console.log(menuItem)}/>
-                        ) : (
-                        false
-                        );
-                        })}
-                        title='Café da Manhã'/>
-
+                    handleClick = {(event) => {filterMeal(event)}}
+                    title='Café da Manhã'
+                    id={'breakfast'}/>
                     <Button
-                    handleClick = {() => menu.map(menuItem => { 
-                        return menuItem.other ? (
-                            <Card 
-                            name={menuItem.name} 
-                            price={menuItem.price} 
-                            handleClick={() => console.log(menuItem)}/>
-                        ) : (
-                        false
-                        );
-                    })}
-                    title='Demais Opções'/>
+                    handleClick = {(event) => {filterMeal(event)}}
+                    title='Demais Opções'
+                    id={'otherOptions'}/>
+                </section>
+                <section>
+                    {type.map((menuItem) => 
+                        <Card 
+                        handleClick = {(e) => console.log(menuItem.name)}
+                        name = {menuItem.name}
+                        price = {menuItem.price}/>
+                    )}
                 </section>
             </main>
         </div>
@@ -73,4 +73,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default Restaurant
+export default Restaurant;
