@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { db } from '../Utils/firebaseUtil.js';
-import Card from '../Components/Card.js';
 import Header from '../Components/Header/Header.js';
 import Button from '../Components/Button';
 import Input from '../Components/Input';
-import Order from '../Components/Order'
+import Order from '../Components/Order';
+import OptButton from '../Components/OptButton'
 
 const Restaurant = () => {
 
@@ -78,9 +78,9 @@ const Restaurant = () => {
                         title='Demais Opções'
                         id={'otherOptions'} />
                 </section>
-                <section>
+                <section className={css(styles.secMenu)}>
                     {type.map((menuItem) =>
-                        <Card
+                        <OptButton
                             handleClick={(e) => console.log(menuItem.name)}
                             name={menuItem.name}
                             price={menuItem.price} />
@@ -105,7 +105,15 @@ const styles = StyleSheet.create({
         src: "url('https://fonts.googleapis.com/css?family=Montserrat&display=swap')",
         display: 'flex',
         flexFlow: ['columm', 'wrap'],
-        padding: '1vw'
+        padding: '1vw',
+        justifyContent: 'center',
+    },
+
+    secMenu: {
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center'
     },
 
     secOptions: {
