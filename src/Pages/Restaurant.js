@@ -6,7 +6,7 @@ import Button from '../Components/Button';
 import Input from '../Components/Input';
 import Order from '../Components/Order';
 import MenuButton from '../Components/MenuButton';
-import MainMenuButton from '../Components/MainMenuButton'
+import MainMenuButton from '../Components/MainMenuButton';
 
 const Restaurant = () => {
 
@@ -16,7 +16,7 @@ const Restaurant = () => {
     const [total, setTotal] = useState([]);
     const [table, setTable] = useState();
     const [client, setClient] = useState();
-    const [options, setOptions] = useState([])
+    const [options, setOptions] = useState([]);
 
     useEffect(() => {
         db.collection("Menu")
@@ -73,9 +73,9 @@ const Restaurant = () => {
         const findItem= order.find(item => item.name===selectedItem.name)
         if(findItem){
             findItem.quantity++;
-            setOrder([...order]);
+            setOrder([...order, selectedItem]);
         } else {
-            selectedItem.quantity=1;
+            selectedItem.quantity += 1;
             setOrder([...order,selectedItem]);
             console.log(selectedItem);
         }        
@@ -127,7 +127,7 @@ const Restaurant = () => {
                         <MenuButton
                             handleClick={() => addOrder(selectedItem)}
                             name={selectedItem.name}
-                            price={selectedItem.price} />
+                            price={selectedItem.price}/>
                     )}
                 </section>
                 <aside>
@@ -137,14 +137,10 @@ const Restaurant = () => {
                     name= {item.name}
                     price={item.price}
                     quantity= {item.quantity}
+                    total={calcTotal()}
                     />
                     )
                 }
-                <Button
-                    handleClick={(order) => {sendOrder(order)}}
-                    title='Enviar Pedido'
-                    id={'send-order'} 
-                />
                 </aside>
             </main>
         </div>
