@@ -5,16 +5,18 @@ import Header from '../Components/Header/Header.js';
 import Button from '../Components/Button';
 import Input from '../Components/Input';
 import Order from '../Components/Order';
-import OptButton from '../Components/OptButton'
+import MenuButton from '../Components/MenuButton';
+import MainMenuButton from '../Components/MainMenuButton'
 
 const Restaurant = () => {
 
-    const [type, setType] = useState([]);
+    const [menuType, setMenuType] = useState([]);
     const [menu, setMenu] = useState([]);
-    const [client, setClient] = useState();
-    const [table, setTable] = useState();
     const [order, setOrder] = useState([]);
     const [total, setTotal] = useState([]);
+    const [table, setTable] = useState();
+    const [client, setClient] = useState();
+    const [options, setOptions] = useState([])
 
     useEffect(() => {
         db.collection("Menu")
@@ -28,26 +30,68 @@ const Restaurant = () => {
             })
     });
 
-    const filterMeal = (event) => {
-        const meal = event.target.id
-        const validate = (meal === 'breakfast') ? true : false
+    const filterMenu = (event) => {
+        const dish = event.target.id;
+        const validate = (dish === 'breakfast') ? true : false;
         const filteredMenu = menu.filter((elem) => elem.breakfast === validate);
-        return setType(filteredMenu);
+        return setMenuType(filteredMenu);
     }
 
-    if (client && table) {
-        db.collection("Pedidos").add({
-            client,
-            table,
-            order: order,
-            total: total,
-            dateHour: new Date().toLocaleString('pt-BR'),
-        }).then(() => {
-            setClient('')
-            setTable('')
-            setOrder([])
-            setTotal('')
-        })
+    const sendOrder = () => {
+        /*  if((table && client) === 0){
+            alert('Preencha o nº da mesa e o nome do cliente.')
+        } else if (order.length === 0){
+            alert('Adicione produtos ao pedido.')
+        } */
+        if (client && table) {
+            db.collection("Pedidos").add({
+                name: client,
+                table: table,
+                order: order.map(function(i) {return {name:i.name, quantity: i.count}}),
+                total: total,
+                time: new Date().toLocaleString('pt-BR')
+            }).then(() => {
+                setClient('')
+                setTable('')
+                setOrder([])
+                setTotal('')
+            })
+        }
+    }  
+
+/*     const checkOptions = (selectedItem) => {
+        if (selectedItem.options.length !== 0) {
+            setOptions(selectedItem);
+        } else {
+            setOptions([]);
+            addOrder(selectedItem);
+            
+        }
+    } */
+
+    const addOrder = (selectedItem) => {
+        const findItem= order.find(item => item.name===selectedItem.name)
+        if(findItem){
+            findItem.quantity++;
+            setOrder([...order]);
+        } else {
+            selectedItem.quantity=1;
+            setOrder([...order,selectedItem]);
+            console.log(selectedItem);
+        }        
+    }
+
+    const calcTotal = () => order.reduce((acc, item)=> {
+        return acc + (item.price*item.quantity)
+    }, 0)
+
+    const removeItem = (selectedItem) => {
+        const findIndex = order.findIndex(item => item.name === selectedItem.name);
+        if (order[findIndex].quantity > 1) {
+            console.log(findIndex)
+            order[findIndex].quantity--
+            setOrder([...order])
+        }
     }
 
     return (
@@ -69,30 +113,38 @@ const Restaurant = () => {
                 <section className={css(styles.secInput)}>
                 </section>
                 <section className={css(styles.secOptions)}>
-                    <Button
-                        handleClick={(event) => { filterMeal(event) }}
+                    <MainMenuButton
+                        handleClick={(event) => {filterMenu(event)}}
                         title='Café da Manhã'
                         id={'breakfast'} />
-                    <Button
-                        handleClick={(event) => { filterMeal(event) }}
+                    <MainMenuButton
+                        handleClick={(event) => {filterMenu(event)}}
                         title='Demais Opções'
-                        id={'otherOptions'} />
+                        id={'otherOptions'}/>
                 </section>
                 <section className={css(styles.secMenu)}>
-                    {type.map((menuItem) =>
-                        <OptButton
-                            handleClick={(e) => console.log(menuItem.name)}
-                            name={menuItem.name}
-                            price={menuItem.price} />
+                    {menuType.map((selectedItem) =>
+                        <MenuButton
+                            handleClick={() => addOrder(selectedItem)}
+                            name={selectedItem.name}
+                            price={selectedItem.price} />
                     )}
                 </section>
                 <aside>
+                {
+                    order.map((item)=> 
                     <Order
-                        client = {setClient}
-                        table= {setTable} 
-                        order= {setOrder} 
-                        total= {setTotal} 
+                    name= {item.name}
+                    price={item.price}
+                    quantity= {item.quantity}
                     />
+                    )
+                }
+                <Button
+                    handleClick={(order) => {sendOrder(order)}}
+                    title='Enviar Pedido'
+                    id={'send-order'} 
+                />
                 </aside>
             </main>
         </div>
@@ -102,7 +154,7 @@ const Restaurant = () => {
 const styles = StyleSheet.create({
     main: {
         fontFamily: ['Montserrat', 'sans-serif'],
-        src: "url('https://fonts.googleapis.com/css?family=Montserrat&display=swap')",
+        src: "url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap')",
         display: 'flex',
         flexFlow: ['columm', 'wrap'],
         padding: '1vw',

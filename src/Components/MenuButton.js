@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 
-function OptButton(props) {
+function MenuButton(props) {
     return (
         <button onClick={props.handleClick} id={props.id} className={css(styles.button)}>
             <p>{props.name}</p>
@@ -16,11 +16,11 @@ const styles = StyleSheet.create({
         width: '15vw',
         height: 'auto',
         margin: '2vw 3vw 1vw 3vw',
-        fontSize: '0.8rem',
+        fontSize: '0.5rem',
         borderRadius: '2vw',
         fontWeight: 'bold',
         border: 'none',
     }
 })
 
-export default OptButton;
+export default MenuButton;

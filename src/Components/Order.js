@@ -1,13 +1,17 @@
 import React from 'react';
 
 const Order = (props) =>{
+
     return(
-        <ol client={props.client} 
-            table={props.table} 
-            order={props.order} 
-            total={props.total} 
-            datehour={props.dateHour} 
-        />
+        <div>
+            <ol className='order' 
+                name= {props.name}
+                price={props.price}
+                quantity= {props.quantity}
+                options={props.options}  
+            />
+        </div>
     )
 }
+
 export default Order;
