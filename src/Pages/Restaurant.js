@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { db } from '../Utils/firebaseUtil.js';
 import Header from '../Components/Header/Header.js';
-import Button from '../Components/MainMenuButton';
+import Button from '../Components/Button';
 import Input from '../Components/Input';
 import Order from '../Components/Order';
 import MenuButton from '../Components/MenuButton';
@@ -47,7 +47,7 @@ const Restaurant = () => {
             db.collection("Pedidos").add({
                 name: client,
                 table: table,
-                order: order,
+                order: order.map(function(i) {return {name:i.name, quantity: i.count}}),
                 total: total,
                 time: new Date().toLocaleString('pt-BR')
             }).then(() => {
@@ -59,18 +59,39 @@ const Restaurant = () => {
         }
     }  
 
-    const checkOptions = (menuItem) => {
-        if (menuItem.options.length !== 0) {
-            setOptions(menuItem);
+/*     const checkOptions = (selectedItem) => {
+        if (selectedItem.options.length !== 0) {
+            setOptions(selectedItem);
         } else {
             setOptions([]);
-            addOrder(menuItem);
+            addOrder(selectedItem);
+            
         }
+    } */
+
+    const addOrder = (selectedItem) => {
+        const findItem= order.find(item => item.name===selectedItem.name)
+        if(findItem){
+            findItem.quantity++;
+            setOrder([...order]);
+        } else {
+            selectedItem.quantity=1;
+            setOrder([...order,selectedItem]);
+            console.log(selectedItem);
+        }        
     }
 
-    const addOrder = (menuItem) => {
-        const selectedItem = (menuItem.quantity += 1);
-        setOrder([...order, selectedItem]);
+    const calcTotal = () => order.reduce((acc, item)=> {
+        return acc + (item.price*item.quantity)
+    }, 0)
+
+    const removeItem = (selectedItem) => {
+        const findIndex = order.findIndex(item => item.name === selectedItem.name);
+        if (order[findIndex].quantity > 1) {
+            console.log(findIndex)
+            order[findIndex].quantity--
+            setOrder([...order])
+        }
     }
 
     return (
@@ -102,23 +123,20 @@ const Restaurant = () => {
                         id={'otherOptions'}/>
                 </section>
                 <section className={css(styles.secMenu)}>
-                    {menuType.map((menuItem) =>
+                    {menuType.map((selectedItem) =>
                         <MenuButton
-                            handleClick={() => checkOptions(menuItem)}
-                            name={menuItem.name}
-                            price={menuItem.price} />
+                            handleClick={() => addOrder(selectedItem)}
+                            name={selectedItem.name}
+                            price={selectedItem.price} />
                     )}
                 </section>
                 <aside>
                 {
                     order.map((item)=> 
                     <Order
-                        client={setClient}
-                        table={setTable}
-                        order={Order}
-                        options={options}
-                        total = {total}
-
+                    name= {item.name}
+                    price={item.price}
+                    quantity= {item.quantity}
                     />
                     )
                 }
@@ -136,7 +154,7 @@ const Restaurant = () => {
 const styles = StyleSheet.create({
     main: {
         fontFamily: ['Montserrat', 'sans-serif'],
-        src: "url('https://fonts.googleapis.com/css?family=Montserrat&display=swap')",
+        src: "url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap')",
         display: 'flex',
         flexFlow: ['columm', 'wrap'],
         padding: '1vw',
