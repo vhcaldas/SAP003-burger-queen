@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { db } from '../Utils/firebaseUtil.js';
 import Header from '../Components/Header/Header.js';
-import Button from '../Components/Button';
 import Input from '../Components/Input';
-import Order from '../Components/Order';
+import OrderPad from '../Components/OrderPad';
 import MenuButton from '../Components/MenuButton';
 import MainMenuButton from '../Components/MainMenuButton';
+import Button from '../Components/Button'
 
 const Restaurant = () => {
 
@@ -75,7 +75,7 @@ const Restaurant = () => {
             findItem.quantity++;
             setOrder([...order, selectedItem]);
         } else {
-            selectedItem.quantity += 1;
+            selectedItem.quantity = 1;
             setOrder([...order,selectedItem]);
             console.log(selectedItem);
         }        
@@ -110,8 +110,6 @@ const Restaurant = () => {
                         value={table}
                         onChange={(event) => {setTable(event.currentTarget.value)}} />
                 </section>
-                <section className={css(styles.secInput)}>
-                </section>
                 <section className={css(styles.secOptions)}>
                     <MainMenuButton
                         handleClick={(event) => {filterMenu(event)}}
@@ -130,10 +128,10 @@ const Restaurant = () => {
                             price={selectedItem.price}/>
                     )}
                 </section>
-                <aside>
+                <section>
                 {
                     order.map((item)=> 
-                    <Order
+                    <OrderPad
                     name= {item.name}
                     price={item.price}
                     quantity= {item.quantity}
@@ -141,7 +139,12 @@ const Restaurant = () => {
                     />
                     )
                 }
-                </aside>
+                < Button
+                    name='Enviar Pedido'
+                    id={'send-order'} 
+                    click={() => sendOrder(order)}
+                />
+                </section>
             </main>
         </div>
     )
@@ -161,7 +164,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        width: '50%'
     },
 
     secOptions: {

@@ -3,8 +3,9 @@ import { StyleSheet, css } from 'aphrodite';
 
 function Button(props) {
     return (
-        <button onClick={props.handleClick} id={props.id} className={css(styles.button)}>
+        <button onClick={(props) => props.click(props)} id={props.id} className={css(styles.button)}>
             {props.name}
+            
         </button>
     )
 }

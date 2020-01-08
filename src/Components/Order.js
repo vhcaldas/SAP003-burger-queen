@@ -1,37 +1,36 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import Button from './Button'
+import DeleteButton from './DeleteButton'
 
 const Order = (props) =>{
 
     return(
-        <div>
-            <ol className={css(styles.order)} 
-                name= {props.name}
-                price={props.price}
-                quantity= {props.quantity}
-                options={props.options}  
-            />
-            <Button
-                name='Enviar Pedido'
-                onClick={(props) => {props(props)}}
-                id={'send-order'} 
-            />
+        <div className={css(styles.order)}>
+            <ol className={css(styles.orderList)}>
+                <ul className={css(styles.listName)}>Quantidade: {props.quantity}</ul>
+                <ul className={css(styles.listName)}>Nome: {props.name}</ul>
+                <ul className={css(styles.listName)}>Preço: R$ {props.price},00</ul>
+            </ol>
+            <div><DeleteButton/></div>
         </div>
     )
 }
 
 const styles = StyleSheet.create({
-    order: {
-        backgroundColor: '#FFB800',
+    order:{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    orderList: {
         color: '#0C0804',
-        width: '10vw',
-        height: '20vh',
-        margin: '2vw 3vw 1vw 3vw',
-        fontSize: '0.5rem',
-        borderRadius: '2vw',
-        fontWeight: 'bold',
-        border: 'none',
+        width: 'auto',
+        height: 'auto',
+        fontSize: '0.8rem',
+        padding: '1vw'
+    },
+    listName:{
+        padding: '0'
     }
 })
 
