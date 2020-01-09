@@ -3,10 +3,10 @@ import { StyleSheet, css } from 'aphrodite';
 import { db } from '../Utils/firebaseUtil.js';
 import Header from '../Components/Header/Header.js';
 import Input from '../Components/Input';
-import OrderPad from '../Components/OrderPad';
 import MenuButton from '../Components/MenuButton';
 import MainMenuButton from '../Components/MainMenuButton';
-import Button from '../Components/Button'
+import Order from '../Components/Order';
+import Button from '../Components/Button';
 
 const Restaurant = () => {
 
@@ -72,13 +72,13 @@ const Restaurant = () => {
     const addOrder = (selectedItem) => {
         const findItem= order.find(item => item.name===selectedItem.name)
         if(findItem){
-            findItem.quantity++;
-            setOrder([...order, selectedItem]);
+            findItem.quantity += 1;
+            setOrder([...order]);
         } else {
             selectedItem.quantity = 1;
             setOrder([...order,selectedItem]);
             console.log(selectedItem);
-        }        
+        } 
     }
 
     const calcTotal = () => order.reduce((acc, item)=> {
@@ -110,39 +110,42 @@ const Restaurant = () => {
                         value={table}
                         onChange={(event) => {setTable(event.currentTarget.value)}} />
                 </section>
-                <section className={css(styles.secOptions)}>
-                    <MainMenuButton
-                        handleClick={(event) => {filterMenu(event)}}
-                        title='Café da Manhã'
-                        id={'breakfast'} />
-                    <MainMenuButton
-                        handleClick={(event) => {filterMenu(event)}}
-                        title='Demais Opções'
-                        id={'otherOptions'}/>
-                </section>
-                <section className={css(styles.secMenu)}>
-                    {menuType.map((selectedItem) =>
-                        <MenuButton
-                            handleClick={() => addOrder(selectedItem)}
-                            name={selectedItem.name}
-                            price={selectedItem.price}/>
-                    )}
-                </section>
-                <section>
+                <div className={css(styles.menu)}>
+                    <section className={css(styles.secOptions)}>
+                        <MainMenuButton
+                            handleClick={(event) => {filterMenu(event)}}
+                            title='Café da Manhã'
+                            id={'breakfast'} />
+                        <MainMenuButton
+                            handleClick={(event) => {filterMenu(event)}}
+                            title='Demais Opções'
+                            id={'otherOptions'}/>
+                    </section>
+                    <section className={css(styles.secMenu)}>
+                        {menuType.map((selectedItem) =>
+                            <MenuButton
+                                handleClick={() => addOrder(selectedItem)}
+                                name={selectedItem.name}
+                                price={selectedItem.price}/>
+                        )}
+                    </section>
+                </div>
+                <section className={css(styles.secOrder)}>
+                <p>Pedido:</p>
                 {
                     order.map((item)=> 
-                    <OrderPad
+                    <Order
                     name= {item.name}
                     price={item.price}
                     quantity= {item.quantity}
-                    total={calcTotal()}
                     />
                     )
                 }
-                < Button
-                    name='Enviar Pedido'
+                <p>Valor Total: R$ {calcTotal()},00 </p>
+                <Button
                     id={'send-order'} 
                     click={() => sendOrder(order)}
+                    title='Enviar Pedido'
                 />
                 </section>
             </main>
@@ -160,18 +163,39 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 
-    secMenu: {
+    menu:{
+        width: '50vw',
+    },
+
+    secInput:{
+        marginBottom:'2vw',
+    },
+
+    secOrder: {
         display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        width: '50%'
+        flexDirection: 'column',
+        borderColor:'#FFB800',
+        borderStyle: 'solid',
+        borderWidth: '1vw',
+        borderRadius: '2vw',
+        width: '30vw',
+        height: 'max-content',
+        padding: '1vw'
     },
 
     secOptions: {
         display: 'flex',
-        flexFlow: ['row', 'wrap']
+        flexFlow: ['row', 'wrap'],
+        justifyContent: 'center',
     },
+
+    secMenu:{
+        display: 'flex',
+        justifyContent: 'center',
+        flexFlow: ['column', 'wrap'],
+        
+    }
+
 })
 
 export default Restaurant;

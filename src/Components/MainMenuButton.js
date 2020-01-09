@@ -12,13 +12,14 @@ const styles = StyleSheet.create({
   mainMenu: {
     backgroundColor: '#0C0804',
     color: '#F4F4F4',
-    width: '25vw',
-    height: '4vh',
-    margin: '2vw 3vw 1vw 3vw',
+    width: '17vw',
+    height: 'auto',
+    marginLeft: '1vw',
     fontSize: '1rem',
     borderRadius: '2vw',
     fontWeight: 'bold',
     border: 'none',
+    padding: '1vw',
   }
 })
 

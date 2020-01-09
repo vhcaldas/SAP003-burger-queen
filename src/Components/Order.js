@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
         width: 'auto',
         height: 'auto',
         fontSize: '0.8rem',
-        padding: '1vw'
+        padding: '1vw',
+        margin: '0',
     },
     listName:{
         padding: '0'
