@@ -3,20 +3,20 @@ import { StyleSheet, css } from 'aphrodite';
 
 function MenuButton(props) {
     return (
-        <button onClick={props.handleClick} id={props.id} className={css(styles.button)}>
+        <button onClick={props.handleClick} id={props.id} className={css(styles.menuButton)}>
             <p>{props.name}</p>
-            <p>R$ {props.price}</p>
+            <p>R${props.price},00</p>
         </button>
     )
 }
 const styles = StyleSheet.create({
-    button: {
+    menuButton: {
         backgroundColor: '#FFB800',
         color: '#0C0804',
         width: '15vw',
-        height: 'auto',
-        margin: '2vw 3vw 1vw 3vw',
-        fontSize: '0.5rem',
+        height: '10vh',
+        margin: '2vw 1.5vw 1vw 1.5vw',
+        fontSize: '0.9rem',
         borderRadius: '2vw',
         fontWeight: 'bold',
         border: 'none',
