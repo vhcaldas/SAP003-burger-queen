@@ -10,6 +10,7 @@ const Order = (props) =>{
                 <ul className={css(styles.listName)}>Quantidade: {props.quantity}</ul>
                 <ul className={css(styles.listName)}>Nome: {props.name}</ul>
                 <ul className={css(styles.listName)}>Preço: R$ {props.price},00</ul>
+                <ul>{props.options}</ul>
             </ol>
             <div><DeleteButton/></div>
         </div>
