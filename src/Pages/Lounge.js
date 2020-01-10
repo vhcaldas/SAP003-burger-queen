@@ -7,15 +7,16 @@ import MenuButton from '../Components/MenuButton';
 import MainMenuButton from '../Components/MainMenuButton';
 import Order from '../Components/Order';
 import Button from '../Components/Button';
+import alertify from 'alertifyjs';
 
-const Restaurant = () => {
+const Lounge = () => {
 
     const [menuType, setMenuType] = useState([]);
     const [menu, setMenu] = useState([]);
     const [order, setOrder] = useState([]);
     const [total, setTotal] = useState([]);
-    const [table, setTable] = useState();
-    const [client, setClient] = useState();
+    const [table, setTable] = useState(0);
+    const [client, setClient] = useState('');
     const [modal, setModal] = useState({ status: false });
     const [options, setOptions] = useState("");
     /*     const [extras, setExtras] = useState(""); */
@@ -40,24 +41,25 @@ const Restaurant = () => {
     }
 
     const sendOrder = () => {
-        /*  if((table && client) === 0){
-            alert('Preencha o nº da mesa e o nome do cliente.')
-        } else if (order.length === 0){
-            alert('Adicione produtos ao pedido.')
-        } */
+
         if (client && table) {
-            db.collection("Pedidos").add({
+            const command = {
                 name: client,
                 table: table,
-                order: order.map(function (i) { return { name: i.name, quantity: i.count } }),
+                order: order.map(function (i) { return { name: i.name, quantity: i.quantity } }),
                 total: total,
-                time: new Date().toLocaleString('pt-BR')
-            }).then(() => {
+                time: new Date().toLocaleString('pt-BR'),
+            }
+            db.collection('Pedidos').add(command).then(() => {
                 setClient('')
-                setTable('')
-                setOrder([])
-                setTotal('')
+                setTable(0)
+                setOrder('')
+                setTotal()
             })
+        } else if (!client) {
+            alertify.error('Digite o nome do cliente.');
+        } else if (!table) {
+            alertify.error('Digite a mesa!');
         }
     }
 
@@ -92,14 +94,15 @@ const Restaurant = () => {
         return acc + (item.price * item.quantity)
     }, 0)
 
-    /* const removeItem = (selectedItem) => {
-        const findIndex = order.findIndex(item => item.name === selectedItem.name);
-        if (order[findIndex].quantity > 1) {
-            console.log(findIndex)
-            order[findIndex].quantity--
-            setOrder([...order])
+    const removeItem = (item) => {
+        console.log(item)
+        if(order.includes(item)){
+            console.log("uhul")
+            item.quantity -= 1;
         }
-    } */
+        const remove = order.filter(el => el.quantity > 0);
+        setOrder([...remove]);
+    }
 
     return (
         <div>
@@ -147,7 +150,7 @@ const Restaurant = () => {
                                 <h3>Opções:</h3>
                                 {modal.item.options.map((elem) =>
                                     <div>
-                                        <input onChange={() => setOptions(`${options} ${elem}`)} type='radio' name='options' value={elem} />
+                                        <input checked={elem === options} onChange={() => setOptions(`${elem}`)} type='radio' name='options' value={elem} />
                                         <label>{elem}</label>
                                     </div>
                                 )}
@@ -168,6 +171,9 @@ const Restaurant = () => {
                                 name={item.name}
                                 price={item.price}
                                 quantity={item.quantity}
+                                delete={(event)=>{
+                                    event.preventDefault();
+                                    removeItem(item)}}
                             />
                         )
                     }
@@ -227,13 +233,13 @@ const styles = StyleSheet.create({
         flexFlow: ['column', 'wrap'],
     },
 
-    orderTitle:{
-        textAlign:'center',
+    orderTitle: {
+        textAlign: 'center',
         margin: '1vw 0',
         color: '#0C0804',
     },
 
-    orderTotal:{
+    orderTotal: {
         fontSize: '1.0rem',
         fontWeight: '600',
         margin: '1vw 1vw 0'
@@ -241,4 +247,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default Restaurant;
+export default Lounge;

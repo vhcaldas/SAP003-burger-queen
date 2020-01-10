@@ -1,11 +1,10 @@
 import React from 'react';
-import Restaurant from './Pages/Restaurant';
-
+import Lounge from './Pages/Lounge';
 
 function App() { 
   return (
     <>
-      <Restaurant/>
+      <Lounge/>
     </>
   );
 }
