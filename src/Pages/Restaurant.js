@@ -16,7 +16,9 @@ const Restaurant = () => {
     const [total, setTotal] = useState([]);
     const [table, setTable] = useState();
     const [client, setClient] = useState();
-    const [options, setOptions] = useState([]);
+    const [modal, setModal] = useState({ status: false });
+    const [options, setOptions] = useState("");
+/*     const [extras, setExtras] = useState(""); */
 
     useEffect(() => {
         db.collection("Menu")
@@ -47,7 +49,7 @@ const Restaurant = () => {
             db.collection("Pedidos").add({
                 name: client,
                 table: table,
-                order: order.map(function(i) {return {name:i.name, quantity: i.count}}),
+                order: order.map(function (i) { return { name: i.name, quantity: i.count } }),
                 total: total,
                 time: new Date().toLocaleString('pt-BR')
             }).then(() => {
@@ -57,42 +59,46 @@ const Restaurant = () => {
                 setTotal('')
             })
         }
-    }  
+    }
 
-/*     const checkOptions = (selectedItem) => {
+    const verifyOptions = (selectedItem) => {
         if (selectedItem.options.length !== 0) {
-            setOptions(selectedItem);
-        } else {
-            setOptions([]);
+            setModal({ status: true, item: selectedItem });
+        } else{
             addOrder(selectedItem);
-            
         }
-    } */
+    }
+
+    const addOptionsExtras = () => {
+        const updatedItem = {...modal.item, 
+            name: `${modal.item.name} Opções: ${options}`
+        };
+        addOrder(updatedItem)
+    }
 
     const addOrder = (selectedItem) => {
-        const findItem= order.find(item => item.name===selectedItem.name)
-        if(findItem){
+        const findItem = order.find(item => item.name === selectedItem.name)
+        if (findItem) {
             findItem.quantity += 1;
             setOrder([...order]);
         } else {
             selectedItem.quantity = 1;
-            setOrder([...order,selectedItem]);
-            console.log(selectedItem);
-        } 
+            setOrder([...order, selectedItem]);
+        }
     }
 
-    const calcTotal = () => order.reduce((acc, item)=> {
-        return acc + (item.price*item.quantity)
+    const calcTotal = () => order.reduce((acc, item) => {
+        return acc + (item.price * item.quantity)
     }, 0)
 
-    const removeItem = (selectedItem) => {
+    /* const removeItem = (selectedItem) => {
         const findIndex = order.findIndex(item => item.name === selectedItem.name);
         if (order[findIndex].quantity > 1) {
             console.log(findIndex)
             order[findIndex].quantity--
             setOrder([...order])
         }
-    }
+    } */
 
     return (
         <div>
@@ -103,50 +109,69 @@ const Restaurant = () => {
                         className='input'
                         type={'text'}
                         value={client}
-                        onChange={(event) => {setClient(event.currentTarget.value) }} />
+                        onChange={(event) => { setClient(event.target.value) }} />
                     <Input placeholder={'Mesa'}
                         className='input'
                         type={'number'}
                         value={table}
-                        onChange={(event) => {setTable(event.currentTarget.value)}} />
+                        min={'0'}
+                        onChange={(event) => { setTable(event.target.value) }} />
                 </section>
                 <div className={css(styles.menu)}>
                     <section className={css(styles.secOptions)}>
                         <MainMenuButton
-                            handleClick={(event) => {filterMenu(event)}}
+                            handleClick={(event) => { filterMenu(event) }}
                             title='Café da Manhã'
                             id={'breakfast'} />
                         <MainMenuButton
-                            handleClick={(event) => {filterMenu(event)}}
+                            handleClick={(event) => { filterMenu(event) }}
                             title='Demais Opções'
-                            id={'otherOptions'}/>
+                            id={'otherOptions'} />
                     </section>
                     <section className={css(styles.secMenu)}>
                         {menuType.map((selectedItem) =>
                             <MenuButton
-                                handleClick={() => addOrder(selectedItem)}
-                                name={selectedItem.name}
-                                price={selectedItem.price}/>
+                                handleClick={() => verifyOptions(selectedItem)}
+                                {...selectedItem} />
                         )}
+                        {modal.status === true ? (
+                            <div>
+                                {/* <h3>Extras:</h3>
+                                    {modal.item.extras.map((elem) => 
+                                        <div>
+                                            <input type='radio' name='extras' value={elem}/>
+                                            <label>{elem}</label>
+                                        </div>
+                                    )} */}
+                                <h3>Opções:</h3>
+                                {modal.item.options.map((elem) =>
+                                    <div>
+                                        <input onChange= {() => setOptions(`${options} ${elem}`)} type='radio' name='options' value={elem} />
+                                        <label>{elem}</label>
+                                    </div>
+                                )}
+                                <button onClick={addOptionsExtras}></button>
+                            </div>
+                        ) : false}
                     </section>
                 </div>
                 <section className={css(styles.secOrder)}>
-                <p>Pedido:</p>
-                {
-                    order.map((item)=> 
-                    <Order
-                    name= {item.name}
-                    price={item.price}
-                    quantity= {item.quantity}
+                    <p>Pedido:</p>
+                    {
+                        order.map((item) =>
+                            <Order
+                                name={item.name}
+                                price={item.price}
+                                quantity={item.quantity}
+                            />
+                        )
+                    }
+                    <p>Valor Total: R$ {calcTotal()},00 </p>
+                    <Button
+                        id={'send-order'}
+                        click={() => sendOrder(order)}
+                        title='Enviar Pedido'
                     />
-                    )
-                }
-                <p>Valor Total: R$ {calcTotal()},00 </p>
-                <Button
-                    id={'send-order'} 
-                    click={() => sendOrder(order)}
-                    title='Enviar Pedido'
-                />
                 </section>
             </main>
         </div>
@@ -163,18 +188,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 
-    menu:{
+    menu: {
         width: '50vw',
     },
 
-    secInput:{
-        marginBottom:'2vw',
+    secInput: {
+        marginBottom: '2vw',
     },
 
     secOrder: {
         display: 'flex',
         flexDirection: 'column',
-        borderColor:'#FFB800',
+        borderColor: '#FFB800',
         borderStyle: 'solid',
         borderWidth: '1vw',
         borderRadius: '2vw',
@@ -189,11 +214,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 
-    secMenu:{
+    secMenu: {
         display: 'flex',
         justifyContent: 'center',
         flexFlow: ['column', 'wrap'],
-        
+
     }
 
 })

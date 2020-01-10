@@ -8,7 +8,8 @@ const Input = (props) => {
             className={css(styles.input)}
             type={props.type}
             value={props.value}
-            onChange={props.handleChange}
+            onChange={props.onChange}
+            min={props.min}
         >
         </input> 
     )
