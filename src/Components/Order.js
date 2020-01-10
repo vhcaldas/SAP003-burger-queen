@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import DeleteButton from './DeleteButton'
+import DeleteButton from './DeleteButton';
 
 const Order = (props) =>{
 
@@ -12,7 +12,7 @@ const Order = (props) =>{
                 <ul className={css(styles.listName)}>Preço: R$ {props.price},00</ul>
                 <ul>{props.options}</ul>
             </ol>
-            <div><DeleteButton/></div>
+            <div><DeleteButton handleClick={props.delete}/></div>
         </div>
     )
 }

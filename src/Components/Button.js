@@ -11,11 +11,11 @@ function Button(props) {
 const styles = StyleSheet.create({
     button: {
         backgroundColor: ' #AE3E12',
-        color: '#BBA250',
-        width: '4vw',
-        height: '3vh',
-        margin: '2vw 3vw 1vw 3vw',
-        fontSize: '0.4rem',
+        color: '#F4F4F4',
+        width: '18vw',
+        height: '4vh',
+        margin: '1vw 0',
+        fontSize: '1rem',
         borderRadius: '2vw',
         fontWeight: 'bold',
         border: 'none',

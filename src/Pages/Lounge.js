@@ -7,18 +7,19 @@ import MenuButton from '../Components/MenuButton';
 import MainMenuButton from '../Components/MainMenuButton';
 import Order from '../Components/Order';
 import Button from '../Components/Button';
+import alertify from 'alertifyjs';
 
-const Restaurant = () => {
+const Lounge = () => {
 
     const [menuType, setMenuType] = useState([]);
     const [menu, setMenu] = useState([]);
     const [order, setOrder] = useState([]);
     const [total, setTotal] = useState([]);
-    const [table, setTable] = useState();
-    const [client, setClient] = useState();
+    const [table, setTable] = useState(0);
+    const [client, setClient] = useState('');
     const [modal, setModal] = useState({ status: false });
     const [options, setOptions] = useState("");
-/*     const [extras, setExtras] = useState(""); */
+    /*     const [extras, setExtras] = useState(""); */
 
     useEffect(() => {
         db.collection("Menu")
@@ -40,43 +41,45 @@ const Restaurant = () => {
     }
 
     const sendOrder = () => {
-        /*  if((table && client) === 0){
-            alert('Preencha o nº da mesa e o nome do cliente.')
-        } else if (order.length === 0){
-            alert('Adicione produtos ao pedido.')
-        } */
+
         if (client && table) {
-            db.collection("Pedidos").add({
+            const command = {
                 name: client,
                 table: table,
-                order: order.map(function (i) { return { name: i.name, quantity: i.count } }),
+                order: order.map(function (i) { return { name: i.name, quantity: i.quantity } }),
                 total: total,
-                time: new Date().toLocaleString('pt-BR')
-            }).then(() => {
+                time: new Date().toLocaleString('pt-BR'),
+            }
+            db.collection('Pedidos').add(command).then(() => {
                 setClient('')
-                setTable('')
-                setOrder([])
-                setTotal('')
+                setTable(0)
+                setOrder('')
+                setTotal()
             })
+        } else if (!client) {
+            alertify.error('Digite o nome do cliente.');
+        } else if (!table) {
+            alertify.error('Digite a mesa!');
         }
     }
 
     const verifyOptions = (selectedItem) => {
         if (selectedItem.options.length !== 0) {
             setModal({ status: true, item: selectedItem });
-        } else{
+        } else {
             addOrder(selectedItem);
         }
     }
 
     const addOptionsExtras = () => {
-        const updatedItem = {...modal.item, 
+        const updatedItem = {
+            ...modal.item,
             name: `${modal.item.name} Opções: ${options}`
         };
         addOrder(updatedItem)
     }
 
-    const addOrder = (selectedItem) => {
+    const addOrder = (selectedItem, updatedItem) => {
         const findItem = order.find(item => item.name === selectedItem.name)
         if (findItem) {
             findItem.quantity += 1;
@@ -91,14 +94,15 @@ const Restaurant = () => {
         return acc + (item.price * item.quantity)
     }, 0)
 
-    /* const removeItem = (selectedItem) => {
-        const findIndex = order.findIndex(item => item.name === selectedItem.name);
-        if (order[findIndex].quantity > 1) {
-            console.log(findIndex)
-            order[findIndex].quantity--
-            setOrder([...order])
+    const removeItem = (item) => {
+        console.log(item)
+        if(order.includes(item)){
+            console.log("uhul")
+            item.quantity -= 1;
         }
-    } */
+        const remove = order.filter(el => el.quantity > 0);
+        setOrder([...remove]);
+    }
 
     return (
         <div>
@@ -146,32 +150,41 @@ const Restaurant = () => {
                                 <h3>Opções:</h3>
                                 {modal.item.options.map((elem) =>
                                     <div>
-                                        <input onChange= {() => setOptions(`${options} ${elem}`)} type='radio' name='options' value={elem} />
+                                        <input checked={elem === options} onChange={() => setOptions(`${elem}`)} type='radio' name='options' value={elem} />
                                         <label>{elem}</label>
                                     </div>
                                 )}
-                                <button onClick={addOptionsExtras}></button>
+                                <Button
+                                    id={'send-order'}
+                                    handleClick={() => addOptionsExtras()}
+                                    title='Adicionar Pedido'
+                                />
                             </div>
                         ) : false}
                     </section>
                 </div>
                 <section className={css(styles.secOrder)}>
-                    <p>Pedido:</p>
+                    <h1 className={css(styles.orderTitle)}>Pedido:</h1>
                     {
                         order.map((item) =>
                             <Order
                                 name={item.name}
                                 price={item.price}
                                 quantity={item.quantity}
+                                delete={(event)=>{
+                                    event.preventDefault();
+                                    removeItem(item)}}
                             />
                         )
                     }
-                    <p>Valor Total: R$ {calcTotal()},00 </p>
-                    <Button
-                        id={'send-order'}
-                        click={() => sendOrder(order)}
-                        title='Enviar Pedido'
-                    />
+                    <p className={css(styles.orderTotal)}>Valor Total: R$ {calcTotal()},00 </p>
+                    <div>
+                        <Button
+                            id={'send-order'}
+                            handleClick={() => sendOrder(order)}
+                            title='Enviar Pedido'
+                        />
+                    </div>
                 </section>
             </main>
         </div>
@@ -205,7 +218,7 @@ const styles = StyleSheet.create({
         borderRadius: '2vw',
         width: '30vw',
         height: 'max-content',
-        padding: '1vw'
+        padding: '1vw',
     },
 
     secOptions: {
@@ -218,9 +231,20 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         flexFlow: ['column', 'wrap'],
+    },
 
-    }
+    orderTitle: {
+        textAlign: 'center',
+        margin: '1vw 0',
+        color: '#0C0804',
+    },
+
+    orderTotal: {
+        fontSize: '1.0rem',
+        fontWeight: '600',
+        margin: '1vw 1vw 0'
+    },
 
 })
 
-export default Restaurant;
+export default Lounge;
