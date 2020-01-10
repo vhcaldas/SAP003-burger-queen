@@ -18,7 +18,7 @@ const Restaurant = () => {
     const [client, setClient] = useState();
     const [modal, setModal] = useState({ status: false });
     const [options, setOptions] = useState("");
-/*     const [extras, setExtras] = useState(""); */
+    /*     const [extras, setExtras] = useState(""); */
 
     useEffect(() => {
         db.collection("Menu")
@@ -64,19 +64,20 @@ const Restaurant = () => {
     const verifyOptions = (selectedItem) => {
         if (selectedItem.options.length !== 0) {
             setModal({ status: true, item: selectedItem });
-        } else{
+        } else {
             addOrder(selectedItem);
         }
     }
 
     const addOptionsExtras = () => {
-        const updatedItem = {...modal.item, 
+        const updatedItem = {
+            ...modal.item,
             name: `${modal.item.name} Opções: ${options}`
         };
         addOrder(updatedItem)
     }
 
-    const addOrder = (selectedItem) => {
+    const addOrder = (selectedItem, updatedItem) => {
         const findItem = order.find(item => item.name === selectedItem.name)
         if (findItem) {
             findItem.quantity += 1;
@@ -146,17 +147,21 @@ const Restaurant = () => {
                                 <h3>Opções:</h3>
                                 {modal.item.options.map((elem) =>
                                     <div>
-                                        <input onChange= {() => setOptions(`${options} ${elem}`)} type='radio' name='options' value={elem} />
+                                        <input onChange={() => setOptions(`${options} ${elem}`)} type='radio' name='options' value={elem} />
                                         <label>{elem}</label>
                                     </div>
                                 )}
-                                <button onClick={addOptionsExtras}></button>
+                                <Button
+                                    id={'send-order'}
+                                    handleClick={() => addOptionsExtras()}
+                                    title='Adicionar Pedido'
+                                />
                             </div>
                         ) : false}
                     </section>
                 </div>
                 <section className={css(styles.secOrder)}>
-                    <p>Pedido:</p>
+                    <h1 className={css(styles.orderTitle)}>Pedido:</h1>
                     {
                         order.map((item) =>
                             <Order
@@ -166,12 +171,14 @@ const Restaurant = () => {
                             />
                         )
                     }
-                    <p>Valor Total: R$ {calcTotal()},00 </p>
-                    <Button
-                        id={'send-order'}
-                        click={() => sendOrder(order)}
-                        title='Enviar Pedido'
-                    />
+                    <p className={css(styles.orderTotal)}>Valor Total: R$ {calcTotal()},00 </p>
+                    <div>
+                        <Button
+                            id={'send-order'}
+                            handleClick={() => sendOrder(order)}
+                            title='Enviar Pedido'
+                        />
+                    </div>
                 </section>
             </main>
         </div>
@@ -205,7 +212,7 @@ const styles = StyleSheet.create({
         borderRadius: '2vw',
         width: '30vw',
         height: 'max-content',
-        padding: '1vw'
+        padding: '1vw',
     },
 
     secOptions: {
@@ -218,8 +225,19 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         flexFlow: ['column', 'wrap'],
+    },
 
-    }
+    orderTitle:{
+        textAlign:'center',
+        margin: '1vw 0',
+        color: '#0C0804',
+    },
+
+    orderTotal:{
+        fontSize: '1.0rem',
+        fontWeight: '600',
+        margin: '1vw 1vw 0'
+    },
 
 })
 
