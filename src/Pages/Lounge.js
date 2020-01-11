@@ -51,10 +51,10 @@ const Lounge = () => {
                 time: new Date().toLocaleString('pt-BR'),
             }
             db.collection('Pedidos').add(command).then(() => {
-                setClient('')
+                setClient("")
                 setTable(0)
-                setOrder('')
-                setTotal()
+                setOrder([])
+                setTotal([])
             })
         } else if (!client) {
             alertify.error('Digite o nome do cliente.');
@@ -74,7 +74,7 @@ const Lounge = () => {
     const addOptionsExtras = () => {
         const updatedItem = {
             ...modal.item,
-            name: `${modal.item.name} Opções: ${options} Extras: ${extras}`
+            name: `${modal.item.name} Opções: ${options} Extras: ${extras} + R$ 1,00`
         };
         addOrder(updatedItem);
         setModal({ status: false })
@@ -92,7 +92,8 @@ const Lounge = () => {
     }
 
     const calcTotal = () => order.reduce((acc, item) => {
-        return acc + (item.price * item.quantity)
+        const addExtra = (extras.length !== 0) ? 1 : 0;
+        return acc + ((item.price + addExtra) * item.quantity)
     }, 0)
 
     const removeItem = (product) => {
@@ -161,6 +162,11 @@ const Lounge = () => {
                                 id={'send-order'}
                                 handleClick={() => addOptionsExtras()}
                                 title='Adicionar Pedido'
+                            />
+                            <Button
+                                id={'send-order'}
+                                handleClick={() => setModal({ status: false })}
+                                title='Voltar'
                             />
                         </div>
                     ) : false}
@@ -235,6 +241,9 @@ const styles = StyleSheet.create({
     secOptExtras:{
         height: 'min-content',
         width: 'auto',
+        display: 'flex',
+        flexFlow: ['column', 'wrap'],
+        justifyContent: 'center',
     },
 
     secMenu: {
