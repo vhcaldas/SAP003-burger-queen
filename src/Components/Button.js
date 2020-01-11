@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: ' #AE3E12',
         color: '#F4F4F4',
-        width: '18vw',
+        width: '16vw',
         height: '4vh',
         margin: '1vw 0',
         fontSize: '1rem',

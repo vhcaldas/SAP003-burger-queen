@@ -19,7 +19,7 @@ const Lounge = () => {
     const [client, setClient] = useState('');
     const [modal, setModal] = useState({ status: false });
     const [options, setOptions] = useState("");
-    /*     const [extras, setExtras] = useState(""); */
+    const [extras, setExtras] = useState("");
 
     useEffect(() => {
         db.collection("Menu")
@@ -51,10 +51,10 @@ const Lounge = () => {
                 time: new Date().toLocaleString('pt-BR'),
             }
             db.collection('Pedidos').add(command).then(() => {
-                setClient('')
+                setClient("")
                 setTable(0)
-                setOrder('')
-                setTotal()
+                setOrder([])
+                setTotal([])
             })
         } else if (!client) {
             alertify.error('Digite o nome do cliente.');
@@ -74,9 +74,10 @@ const Lounge = () => {
     const addOptionsExtras = () => {
         const updatedItem = {
             ...modal.item,
-            name: `${modal.item.name} Opções: ${options}`
+            name: `${modal.item.name} Opções: ${options} Extras: ${extras} + R$ 1,00`
         };
-        addOrder(updatedItem)
+        addOrder(updatedItem);
+        setModal({ status: false })
     }
 
     const addOrder = (selectedItem, updatedItem) => {
@@ -91,14 +92,13 @@ const Lounge = () => {
     }
 
     const calcTotal = () => order.reduce((acc, item) => {
-        return acc + (item.price * item.quantity)
+        const addExtra = (extras.length !== 0) ? 1 : 0;
+        return acc + ((item.price + addExtra) * item.quantity)
     }, 0)
 
-    const removeItem = (item) => {
-        console.log(item)
-        if(order.includes(item)){
-            console.log("uhul")
-            item.quantity -= 1;
+    const removeItem = (product) => {
+        if (order.includes(product)) {
+            product.quantity -= 1;
         }
         const remove = order.filter(el => el.quantity > 0);
         setOrder([...remove]);
@@ -138,31 +138,39 @@ const Lounge = () => {
                                 handleClick={() => verifyOptions(selectedItem)}
                                 {...selectedItem} />
                         )}
-                        {modal.status === true ? (
-                            <div>
-                                {/* <h3>Extras:</h3>
-                                    {modal.item.extras.map((elem) => 
-                                        <div>
-                                            <input type='radio' name='extras' value={elem}/>
-                                            <label>{elem}</label>
-                                        </div>
-                                    )} */}
-                                <h3>Opções:</h3>
-                                {modal.item.options.map((elem) =>
-                                    <div>
-                                        <input checked={elem === options} onChange={() => setOptions(`${elem}`)} type='radio' name='options' value={elem} />
-                                        <label>{elem}</label>
-                                    </div>
-                                )}
-                                <Button
-                                    id={'send-order'}
-                                    handleClick={() => addOptionsExtras()}
-                                    title='Adicionar Pedido'
-                                />
-                            </div>
-                        ) : false}
                     </section>
                 </div>
+                <div>
+                <section className={css(styles.secOptExtras)}>
+                    {modal.status === true ? (
+                        <div className={css(styles.secExtras)}>
+                            <h3>Extras:</h3>
+                            {modal.item.extras.map((elem, index) =>
+                                <div key={index}>
+                                    <input checked={elem === extras} onChange={() => setExtras(elem)} type='radio' name='extras' value={elem} />
+                                    <label>{elem}</label>
+                                </div>
+                            )}
+                            <h3>Opções:</h3>
+                            {modal.item.options.map((elem, index) =>
+                                <div key={index}>
+                                    <input checked={elem === options} onChange={() => setOptions(`${elem}`)} type='radio' name='options' value={elem} />
+                                    <label>{elem}</label>
+                                </div>
+                            )}
+                            <Button
+                                id={'send-order'}
+                                handleClick={() => addOptionsExtras()}
+                                title='Adicionar Pedido'
+                            />
+                            <Button
+                                id={'send-order'}
+                                handleClick={() => setModal({ status: false })}
+                                title='Voltar'
+                            />
+                        </div>
+                    ) : false}
+                </section>
                 <section className={css(styles.secOrder)}>
                     <h1 className={css(styles.orderTitle)}>Pedido:</h1>
                     {
@@ -171,9 +179,10 @@ const Lounge = () => {
                                 name={item.name}
                                 price={item.price}
                                 quantity={item.quantity}
-                                delete={(event)=>{
+                                delete={(event) => {
                                     event.preventDefault();
-                                    removeItem(item)}}
+                                    removeItem(item)
+                                }}
                             />
                         )
                     }
@@ -186,8 +195,9 @@ const Lounge = () => {
                         />
                     </div>
                 </section>
+                </div>
             </main>
-        </div>
+        </div >
     )
 }
 
@@ -219,11 +229,20 @@ const styles = StyleSheet.create({
         width: '30vw',
         height: 'max-content',
         padding: '1vw',
+        marginTop:'2vw',
     },
 
     secOptions: {
         display: 'flex',
         flexFlow: ['row', 'wrap'],
+        justifyContent: 'center',
+    },
+
+    secOptExtras:{
+        height: 'min-content',
+        width: 'auto',
+        display: 'flex',
+        flexFlow: ['column', 'wrap'],
         justifyContent: 'center',
     },
 
@@ -243,6 +262,16 @@ const styles = StyleSheet.create({
         fontSize: '1.0rem',
         fontWeight: '600',
         margin: '1vw 1vw 0'
+    },
+
+    secExtras: {
+        borderStyle: 'dashed',
+        padding: '1vw',
+        display: 'flex',
+        flexDirection: 'column',
+        margin: '0',
+        borderColor: '#BBA250',
+        fontSize: '0.8rem',
     },
 
 })

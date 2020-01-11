@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFB800',
         color: '#0C0804',
         width: '15vw',
-        height: '10vh',
+        height: 'auto',
         margin: '2vw 1.5vw 1vw 1.5vw',
         fontSize: '0.9rem',
         borderRadius: '2vw',
