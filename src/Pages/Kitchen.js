@@ -4,6 +4,8 @@ import { StyleSheet, css } from 'aphrodite';
 import CardPendingOrder from '../Components/CardPendingOrder';
 import CardDoneOrder from '../Components/CardDoneOrder';
 
+const hmh = require('hmh');
+
 const Kitchen = () => {
 
     const [orderDone, setOrderDone] = useState([]);
@@ -43,14 +45,20 @@ const Kitchen = () => {
                 .doc(command.id)
                 .update({
                     status: "Pronto",
-                    EndTime: new Date().getTime()
+                    endTime: new Date().toLocaleString('pt-BR'),
+                    getEndTime: new Date().getTime(),
                 });
             const filteredOrders = orderPending.filter((orders) => orders.status === 'Pendente');
             setOrderDone([...orderDone, command])
             setOrderPending([...filteredOrders])
         }
     }
-
+    const calcHour = (command) => {
+        const initialTime = `${new Date(command.getTime).getHours()}h ${new Date(command.getTime).getMinutes()}`
+        const endTime = `${new Date(command.getEndTime).getHours()}h ${new Date(command.getEndTime).getMinutes()}`
+        const diffTime = (hmh.diff(`${initialTime}`, `${endTime}`).toString())
+        console.log(diffTime)
+    }
 
     return (
         <main className={css(styles.kitchenMain)}>
@@ -62,10 +70,9 @@ const Kitchen = () => {
                             name={command.name}
                             desk={command.table}
                             order={command.order.map((i) => (
-                                <div className={css(styles.order)}>
-                                    <p className={css(styles.burguer)}>{i.quantity + ' '}
-                                        {i.name}</p>
-                                </div>))
+                                <p className={css(styles.order)}>{i.quantity + ' '}
+                                    {i.name}</p>
+                                ))
                             }
                             time={command.time}
                             status={command.status}
@@ -75,9 +82,7 @@ const Kitchen = () => {
                                     updateStatus(command)
                                 }
                             }
-                            title={
-                                command.status === "Pendente" ? "Pedido Pendente" : "Pedido Ok"
-                            }
+                            title={'Pronto!'}
                         />
                     )
                     )
@@ -87,17 +92,17 @@ const Kitchen = () => {
                 <h1 className={css(styles.orderTitle)}>Pedidos Concluídos</h1>
                 {
                     orderDone.map((command) => (
+
                         <CardDoneOrder
                             name={command.name}
                             desk={command.table}
                             order={command.order.map((i) => (
-                                <div className={css(styles.order)}>
-                                    <p className={css(styles.orderDescription)}>{i.quantity + ' '}
-                                        {i.name}</p>
-                                </div>))
+                                <p className={css(styles.order)}>{i.quantity + ' '}
+                                    {i.name}</p>))
                             }
                             time={command.time}
-                            status={command.status}
+                            endTime={command.endTime}
+                            prepTime={calcHour}
                         />
                     ))}
             </section>
@@ -106,11 +111,6 @@ const Kitchen = () => {
 }
 
 const styles = StyleSheet.create({
-
-    orderDescription: {
-        margin: '0',
-        textAlign: 'center',
-    },
 
     kitchenMain: {
         fontFamily: ['Montserrat', 'sans-serif'],
@@ -127,25 +127,27 @@ const styles = StyleSheet.create({
         color: '#0C0804',
         borderColor: '#BBA250',
         borderStyle: 'dashed',
-        fontSize: '2rem',
+        fontSize: '1.5rem',
     },
 
     order: {
         display: 'flex',
-        height: '2.7em',
         flexDirection: 'column',
         alignItems: 'center',
         textAlign: 'center',
+        margin: '0.5vw',
     },
 
     secPendingOrder: {
         marginRight: '2vw',
+        width: '50%',
     },
 
     secDoneOrder: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        width: '50%',
     },
 })
 
