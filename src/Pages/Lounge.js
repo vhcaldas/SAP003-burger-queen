@@ -51,7 +51,7 @@ const Lounge = () => {
                 total: total,
                 time: new Date().toLocaleString('pt-BR'),
                 getTime: new Date().getTime(),
-                status:'Pendente',
+                status: 'Pendente',
             }
             db.collection('Pedidos').add(command).then(() => {
                 setClient("")
@@ -147,61 +147,61 @@ const Lounge = () => {
                     </section>
                 </div>
                 <div>
-                <section className={css(styles.secOptExtras)}>
-                    {modal.status === true ? (
-                        <div className={css(styles.secExtras)}>
-                            <h3>Extras:</h3>
-                            {modal.item.extras.map((modalExtras, index) =>
-                                <div key={index}>
-                                    <input checked={modalExtras === extras} onChange={() => setExtras(modalExtras)} type='radio' name='extras' value={modalExtras} />
-                                    <label>{modalExtras}</label>
-                                </div>
-                            )}
-                            <h3>Opções:</h3>
-                            {modal.item.options.map((modalOptions, index) =>
-                                <div key={index}>
-                                    <input checked={modalOptions === options} onChange={() => setOptions(`${modalOptions}`)} type='radio' name='options' value={modalOptions} />
-                                    <label>{modalOptions}</label>
-                                </div>
-                            )}
+                    <section className={css(styles.secOptExtras)}>
+                        {modal.status === true ? (
+                            <div className={css(styles.secExtras)}>
+                                <h3>Extras:</h3>
+                                {modal.item.extras.map((modalExtras, index) =>
+                                    <div key={index}>
+                                        <input checked={modalExtras === extras} onChange={() => setExtras(modalExtras)} type='radio' name='extras' value={modalExtras} />
+                                        <label>{modalExtras}</label>
+                                    </div>
+                                )}
+                                <h3>Opções:</h3>
+                                {modal.item.options.map((modalOptions, index) =>
+                                    <div key={index}>
+                                        <input checked={modalOptions === options} onChange={() => setOptions(`${modalOptions}`)} type='radio' name='options' value={modalOptions} />
+                                        <label>{modalOptions}</label>
+                                    </div>
+                                )}
+                                <Button
+                                    id={'send-order'}
+                                    handleClick={() => addOptionsExtras()}
+                                    title='Adicionar Pedido'
+                                />
+                                <Button
+                                    id={'send-order'}
+                                    handleClick={() => setModal({ status: false })}
+                                    title='Voltar'
+                                />
+                            </div>
+                        ) : false}
+                    </section>
+                    <section className={css(styles.secOrder)}>
+                        <h1 className={css(styles.orderTitle)}>Pedido:</h1>
+                        {
+                            order.map((product, item) =>
+                                <Order
+                                    name={product.name}
+                                    price={product.price}
+                                    quantity={product.quantity}
+                                    delete={(event) => {
+                                        event.preventDefault();
+                                        removeItem(product)
+                                    }}
+                                    key={item.name}
+                                />
+                            )
+                        }
+                        <p className={css(styles.orderTotal)}>Valor Total: R$ {calcTotal()},00 </p>
+                        <div>
                             <Button
                                 id={'send-order'}
-                                handleClick={() => addOptionsExtras()}
-                                title='Adicionar Pedido'
-                            />
-                            <Button
-                                id={'send-order'}
-                                handleClick={() => setModal({ status: false })}
-                                title='Voltar'
+                                handleClick={() => sendOrder(order)}
+                                title='Enviar Pedido'
                             />
                         </div>
-                    ) : false}
-                </section>
-                <section className={css(styles.secOrder)}>
-                    <h1 className={css(styles.orderTitle)}>Pedido:</h1>
-                    {
-                        order.map((product, item) =>
-                            <Order
-                                name={product.name}
-                                price={product.price}
-                                quantity={product.quantity}
-                                delete={(event) => {
-                                    event.preventDefault();
-                                    removeItem(product)
-                                }}
-                                key={item.name}
-                            />
-                        )
-                    }
-                    <p className={css(styles.orderTotal)}>Valor Total: R$ {calcTotal()},00 </p>
-                    <div>
-                        <Button
-                            id={'send-order'}
-                            handleClick={() => sendOrder(order)}
-                            title='Enviar Pedido'
-                        />
-                    </div>
-                </section>
+                    </section>
                 </div>
             </main>
         </div >
@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
         width: '30vw',
         height: 'max-content',
         padding: '1vw',
-        marginTop:'2vw',
+        marginTop: '2vw',
     },
 
     secOptions: {
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 
-    secOptExtras:{
+    secOptExtras: {
         height: 'min-content',
         width: 'auto',
         display: 'flex',

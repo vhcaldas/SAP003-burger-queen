@@ -3,21 +3,21 @@ import { StyleSheet, css } from 'aphrodite';
 
 const Input = (props) => {
     return (
-        <input 
-            placeholder={props.placeholder} 
+        <input
+            placeholder={props.placeholder}
             className={css(styles.input)}
             type={props.type}
             value={props.value}
             onChange={props.onChange}
             min={props.min}
         >
-        </input> 
+        </input>
     )
 }
 
 const styles = StyleSheet.create({
 
-    input:{
+    input: {
         borderRadius: '2vw',
         borderColor: '#FFB800',
         width: '25vw',
