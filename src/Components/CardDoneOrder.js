@@ -10,7 +10,6 @@ const CardDoneOrder= (props) => {
             <p className={css(styles.cardItens)}>Nome do Cliente: {props.name} | Mesa: {props.desk}</p>
             <p className={css(styles.cardItensOrder)}>Pedido:</p>
             {props.order}
-            <p> Tempo de Preparo: {props.prepTime}</p>
         </div>
     )
 }

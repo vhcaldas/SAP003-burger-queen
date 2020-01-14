@@ -59,7 +59,7 @@ A interface mostra os dois menus (café da manhã e restante do dia), cada
 um com todos os seus _produtos_. O usuário pode escolher que _produtos_
 adicionar e a interface mostra o _resumo do pedido_ com o custo total.
 
-O aplicativo pode ser visualizado junto ao link: https://sap003-burguer-queen.firebaseapp.com/34ab/index.html
+O aplicativo pode ser visualizado junto ao link: https://sap003-burguer-queen.firebaseapp.com
 
 ## 2. Objetivos de aprendizagem e Considerações Gerais
 

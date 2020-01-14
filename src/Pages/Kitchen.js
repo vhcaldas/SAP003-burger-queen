@@ -53,12 +53,6 @@ const Kitchen = () => {
             setOrderPending([...filteredOrders])
         }
     }
-    const calcHour = (command) => {
-        const initialTime = `${new Date(command.getTime).getHours()}h ${new Date(command.getTime).getMinutes()}`
-        const endTime = `${new Date(command.getEndTime).getHours()}h ${new Date(command.getEndTime).getMinutes()}`
-        const diffTime = (hmh.diff(`${initialTime}`, `${endTime}`).toString())
-        console.log(diffTime)
-    }
 
     return (
         <main className={css(styles.kitchenMain)}>
@@ -102,7 +96,6 @@ const Kitchen = () => {
                             }
                             time={command.time}
                             endTime={command.endTime}
-                            prepTime={calcHour}
                         />
                     ))}
             </section>
@@ -123,11 +116,12 @@ const styles = StyleSheet.create({
 
     orderTitle: {
         textAlign: 'center',
-        margin: '1vw 0 3vw 0',
+        width: 'max-content',
         color: '#0C0804',
         borderColor: '#BBA250',
         borderStyle: 'dashed',
         fontSize: '1.5rem',
+        padding: '1vw',
     },
 
     order: {
@@ -141,6 +135,9 @@ const styles = StyleSheet.create({
     secPendingOrder: {
         marginRight: '2vw',
         width: '50%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
     },
 
     secDoneOrder: {
