@@ -25,10 +25,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: '2vw',
         border:' 1vw solid #FFB800',
-        fontSize: '0.9rem',
+        fontSize: '0.8rem',
         margin: '1vw',
         padding: '1vw',
-        height: 'auto',
+        height: 'min-content',
     },
     cardItens:{
         margin: '1vw',
