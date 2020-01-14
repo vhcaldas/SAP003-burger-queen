@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { db } from '../Utils/firebaseUtil.js';
-import Header from '../Components/Header/Header.js';
 import Input from '../Components/Input';
 import MenuButton from '../Components/MenuButton';
 import MainMenuButton from '../Components/MainMenuButton';
 import Order from '../Components/Order';
 import Button from '../Components/Button';
-import alertify from 'alertifyjs';
+import { useAlert } from 'react-alert'
+
 
 const Lounge = () => {
 
@@ -20,6 +20,7 @@ const Lounge = () => {
     const [modal, setModal] = useState({ status: false });
     const [options, setOptions] = useState("");
     const [extras, setExtras] = useState("");
+    const alert = useAlert();
 
     useEffect(() => {
         db.collection("Menu")
@@ -46,9 +47,11 @@ const Lounge = () => {
             const command = {
                 name: client,
                 table: table,
-                order: order.map(function (i) { return { name: i.name, quantity: i.quantity } }),
+                order: order,
                 total: total,
                 time: new Date().toLocaleString('pt-BR'),
+                getTime: new Date().getTime(),
+                status:'Pendente',
             }
             db.collection('Pedidos').add(command).then(() => {
                 setClient("")
@@ -57,9 +60,9 @@ const Lounge = () => {
                 setTotal([])
             })
         } else if (!client) {
-            alertify.error('Digite o nome do cliente.');
+            alert.show('Digite o nome do Cliente.');
         } else if (!table) {
-            alertify.error('Digite a mesa!');
+            alert.show('Digite o número da mesa');
         }
     }
 
@@ -74,10 +77,11 @@ const Lounge = () => {
     const addOptionsExtras = () => {
         const updatedItem = {
             ...modal.item,
-            name: `${modal.item.name} Opções: ${options} Extras: ${extras} + R$ 1,00`
+            name: `${modal.item.name} Opções: ${options} Extras (+ R$ 1,00): ${extras}`
         };
         addOrder(updatedItem);
         setModal({ status: false })
+        setExtras([]);
     }
 
     const addOrder = (selectedItem, updatedItem) => {
@@ -91,9 +95,12 @@ const Lounge = () => {
         }
     }
 
-    const calcTotal = () => order.reduce((acc, item) => {
-        const addExtra = (extras.length !== 0) ? 1 : 0;
-        return acc + ((item.price + addExtra) * item.quantity)
+    const calcTotal = () => order.reduce((acc, calcTotal) => {
+        if (extras.length !== 0) {
+            return acc + ((calcTotal.price + 1) * calcTotal.quantity)
+        } else {
+            return acc + (calcTotal.price * calcTotal.quantity)
+        }
     }, 0)
 
     const removeItem = (product) => {
@@ -106,7 +113,6 @@ const Lounge = () => {
 
     return (
         <div>
-            <Header />
             <main className={css(styles.main)}>
                 <section className={css(styles.secInput)}>
                     <Input placeholder={'Nome do Cliente'}
@@ -145,17 +151,17 @@ const Lounge = () => {
                     {modal.status === true ? (
                         <div className={css(styles.secExtras)}>
                             <h3>Extras:</h3>
-                            {modal.item.extras.map((elem, index) =>
+                            {modal.item.extras.map((modalExtras, index) =>
                                 <div key={index}>
-                                    <input checked={elem === extras} onChange={() => setExtras(elem)} type='radio' name='extras' value={elem} />
-                                    <label>{elem}</label>
+                                    <input checked={modalExtras === extras} onChange={() => setExtras(modalExtras)} type='radio' name='extras' value={modalExtras} />
+                                    <label>{modalExtras}</label>
                                 </div>
                             )}
                             <h3>Opções:</h3>
-                            {modal.item.options.map((elem, index) =>
+                            {modal.item.options.map((modalOptions, index) =>
                                 <div key={index}>
-                                    <input checked={elem === options} onChange={() => setOptions(`${elem}`)} type='radio' name='options' value={elem} />
-                                    <label>{elem}</label>
+                                    <input checked={modalOptions === options} onChange={() => setOptions(`${modalOptions}`)} type='radio' name='options' value={modalOptions} />
+                                    <label>{modalOptions}</label>
                                 </div>
                             )}
                             <Button
@@ -174,15 +180,16 @@ const Lounge = () => {
                 <section className={css(styles.secOrder)}>
                     <h1 className={css(styles.orderTitle)}>Pedido:</h1>
                     {
-                        order.map((item) =>
+                        order.map((product, item) =>
                             <Order
-                                name={item.name}
-                                price={item.price}
-                                quantity={item.quantity}
+                                name={product.name}
+                                price={product.price}
+                                quantity={product.quantity}
                                 delete={(event) => {
                                     event.preventDefault();
-                                    removeItem(item)
+                                    removeItem(product)
                                 }}
+                                key={item.name}
                             />
                         )
                     }

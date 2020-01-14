@@ -5,7 +5,7 @@ import DeleteButton from './DeleteButton';
 const Order = (props) =>{
 
     return(
-        <div className={css(styles.order)}>
+        <div className={css(styles.order)} key={props.id}>
             <ol className={css(styles.orderList)}>
                 <ul className={css(styles.listName)}>Quantidade: {props.quantity}</ul>
                 <ul className={css(styles.listName)}>Nome: {props.name}</ul>
