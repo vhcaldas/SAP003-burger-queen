@@ -6,38 +6,38 @@ const CardPendingOrder = (props) => {
     return (
         <div key={props.id} className={css(styles.card)}>
             <p className={css(styles.cardItens)}>Status do Pedido: {props.status}</p>
-            <p className={css(styles.cardItens)}>Horário: {props.time}</p> 
+            <p className={css(styles.cardItens)}>Horário: {props.time}</p>
             <p className={css(styles.cardItens)}>Nome do Cliente: {props.name} | Mesa: {props.desk}</p>
             <p className={css(styles.cardItensOrder)}>Pedido:</p>
             {props.order}
-            <Button 
+            <Button
                 title={props.title}
-                handleClick= {props.changeStatus}
+                handleClick={props.changeStatus}
             />
         </div>
     )
 }
 
 const styles = StyleSheet.create({
-    card:{
+    card: {
         display: 'flex',
         flexFlow: 'column',
         alignItems: 'center',
         borderRadius: '2vw',
-        border:' 1vw solid #FFB800',
+        border: ' 1vw solid #FFB800',
         fontSize: '0.8rem',
         margin: '1vw',
         padding: '1vw',
         height: 'min-content',
     },
-    cardItens:{
+    cardItens: {
         margin: '1vw',
         textAlign: 'center',
         padding: '0',
         height: '1.125em',
     },
-    cardItensOrder:{
-        fontWeight:'bolder',
+    cardItensOrder: {
+        fontWeight: 'bolder',
         margin: '1vw',
         textAlign: 'center',
         padding: '0',

@@ -4,8 +4,6 @@ import { StyleSheet, css } from 'aphrodite';
 import CardPendingOrder from '../Components/CardPendingOrder';
 import CardDoneOrder from '../Components/CardDoneOrder';
 
-const hmh = require('hmh');
-
 const Kitchen = () => {
 
     const [orderDone, setOrderDone] = useState([]);
@@ -66,7 +64,7 @@ const Kitchen = () => {
                             order={command.order.map((i) => (
                                 <p className={css(styles.order)}>{i.quantity + ' '}
                                     {i.name}</p>
-                                ))
+                            ))
                             }
                             time={command.time}
                             status={command.status}
@@ -86,7 +84,6 @@ const Kitchen = () => {
                 <h1 className={css(styles.orderTitle)}>Pedidos Concluídos</h1>
                 {
                     orderDone.map((command) => (
-
                         <CardDoneOrder
                             name={command.name}
                             desk={command.table}

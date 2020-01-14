@@ -14,8 +14,8 @@ import Header from './Components/Header/Header';
 function App() {
   return (
     <Router>
-      <Header/>
-      <Nav/>
+      <Header />
+      <Nav />
       <div className={css(styles.navPage)}>
         <Switch>
           <Route path="/Lounge" component={Lounge} />

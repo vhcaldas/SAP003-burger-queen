@@ -7,7 +7,7 @@ const Nav = () => {
         <nav className={css(styles.navBar)}>
             <ul className={css(styles.navList)}>
                 <li className={css(styles.navLink)}>
-                    <Link to="/Lounge"className={css(styles.navName)} >Salão</Link>
+                    <Link to="/Lounge" className={css(styles.navName)} >Salão</Link>
                 </li>
                 <li className={css(styles.navLink)}>
                     <Link to="/Kitchen" className={css(styles.navName)}>Cozinha</Link>
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         margin: '0 0 2vw',
         padding: '0',
         width: '100vw',
-        textAlign:'center',
+        textAlign: 'center',
         display: 'inline-flex',
         flexDirection: 'row',
         justifyContent: 'space-evenly',
@@ -37,9 +37,9 @@ const styles = StyleSheet.create({
         display: 'inline-flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        
+
     },
-    navName:{
+    navName: {
         textDecoration: 'none',
         color: '#0C0804',
         fontFamily: ['Montserrat', 'sans-serif'],
