@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import Button from './Button'
+import Button from './Button';
 
 const CardPendingOrder = (props) => {
     return (

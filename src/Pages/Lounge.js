@@ -6,7 +6,8 @@ import MenuButton from '../Components/MenuButton';
 import MainMenuButton from '../Components/MainMenuButton';
 import Order from '../Components/Order';
 import Button from '../Components/Button';
-import { useAlert } from 'react-alert'
+import { useAlert } from 'react-alert';
+import CardDoneOrder from '../Components/CardDoneOrder';
 
 
 const Lounge = () => {
@@ -19,9 +20,16 @@ const Lounge = () => {
     const [modal, setModal] = useState({ status: false });
     const [options, setOptions] = useState("");
     const [extras, setExtras] = useState("");
+    const [orderDone, setOrderDone] = useState([]);
     const alert = useAlert();
 
     useEffect(() => {
+        searchMenu();
+        displayDoneOrders();
+    }, []);
+
+
+    const searchMenu = () => {
         db.collection("Menu")
             .get()
             .then((snapshot) => {
@@ -31,7 +39,20 @@ const Lounge = () => {
                 }));
                 setMenu(findMenu);
             })
-    });
+    }
+
+    const displayDoneOrders = () => {
+        db.collection("Pedidos")
+            .where('status', '==', 'Pronto')
+            .get()
+            .then((snapshot) => {
+                const findDoneOrder = snapshot.docs.map((elem) => ({
+                    id: elem.id,
+                    ...elem.data()
+                }));
+                setOrderDone(findDoneOrder);
+            })
+    }
 
     const filterMenu = (event) => {
         const dish = event.target.id;
@@ -42,7 +63,7 @@ const Lounge = () => {
 
     const sendOrder = () => {
 
-        if (client && table && order.length!==0) {
+        if (client && table && order.length !== 0) {
             const command = {
                 name: client,
                 table,
@@ -77,7 +98,7 @@ const Lounge = () => {
     const addOptionsExtras = () => {
         const updatedItem = {
             ...modal.item,
-            name: `${modal.item.name} Opções: ${options} Extras: ${extras}`, 
+            name: `${modal.item.name} Opções: ${options} Extras: ${extras}`,
             extrasPrice: (extras.length !== 0 ? 1 : 0)
         };
         addOrder(updatedItem);
@@ -110,6 +131,7 @@ const Lounge = () => {
         const remove = order.filter(el => el.quantity > 0);
         setOrder([...remove]);
     }
+
 
     return (
         <div>
@@ -203,6 +225,24 @@ const Lounge = () => {
                         </div>
                     </section>
                 </div>
+                <h1 className={css(styles.orderDoneTitle)}>Pedidos Concluídos</h1>
+                <footer className={css(styles.doneOrdersSection)}>
+                    {
+                        orderDone.map((command) => (
+                            <CardDoneOrder
+                                name={command.name}
+                                desk={command.table}
+                                order={command.order.map((i) => (
+                                    <p className={css(styles.order)}>{i.quantity + ' '}
+                                        {i.name}</p>))
+                                }
+                                time={command.time}
+                                endTime={command.endTime}
+
+                            />
+
+                        ))}
+                </footer>
             </main>
         </div >
     )
@@ -259,6 +299,12 @@ const styles = StyleSheet.create({
         flexFlow: ['column', 'wrap'],
     },
 
+    orderDoneTitle: {
+        textAlign: 'left',
+        fontSize: '3vw',
+
+    },
+
     orderTitle: {
         textAlign: 'center',
         margin: '1vw 0',
@@ -279,6 +325,12 @@ const styles = StyleSheet.create({
         margin: '0',
         borderColor: '#BBA250',
         fontSize: '0.8rem',
+    },
+
+    doneOrdersSection: {
+        display: 'flex',
+        flexFlow: ['row', 'wrap'],
+        justifyContent: 'center',
     },
 
 })
