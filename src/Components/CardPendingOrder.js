@@ -13,6 +13,7 @@ const CardPendingOrder = (props) => {
             <Button
                 title={props.title}
                 handleClick={props.changeStatus}
+                className= {css(styles.orderButton)}
             />
         </div>
     )
@@ -28,7 +29,9 @@ const styles = StyleSheet.create({
         fontSize: '0.8rem',
         margin: '1vw',
         padding: '1vw',
-        height: 'min-content',
+        height: '20vh',
+        width: '30vw',
+        overflow:'scroll',
     },
     cardItens: {
         margin: '1vw',
@@ -42,6 +45,12 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         padding: '0',
     },
+
+    orderButton:{
+        width: '4vw',
+        height: '2vh',
+    },
+
 })
 
 export default CardPendingOrder;
