@@ -11,32 +11,25 @@ const Kitchen = () => {
 
 
     useEffect(() => {
-
-        db.collection("Pedidos")
-            .where('status', '==', 'Pendente')
-            .get()
-            .then((snapshot) => {
-                const findOrder = snapshot.docs.map((elem) => ({
-                    id: elem.id,
-                    ...elem.data()
-                }));
-                setOrderPending(findOrder);
-            })
-
-        db.collection("Pedidos")
-            .where('status', '==', 'Pronto')
-            .get()
-            .then((snapshot) => {
-                const findDoneOrder = snapshot.docs.map((elem) => ({
-                    id: elem.id,
-                    ...elem.data()
-                }));
-                setOrderDone(findDoneOrder);
-            })
+        displayOrders('Pendente', setOrderPending);
+        displayOrders('Pronto', setOrderDone)
     }, []);
 
+    const displayOrders = (status, state) => {
+        db.collection("Pedidos")
+            .where("status", "==", status)
+            .onSnapshot(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    const findOrders = querySnapshot.docs.map((showOrder) => ({
+                        id: showOrder.id,
+                        ...showOrder.data(),
+                    }))
+                    state(findOrders)
+                });
+            });
+    }
+
     const updateStatus = (command) => {
-        console.log(command)
         if (command.status === 'Pendente') {
             command.status = 'Pronto';
             db.collection("Pedidos")
