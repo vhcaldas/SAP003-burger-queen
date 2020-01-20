@@ -19,8 +19,6 @@ const Nav = () => {
 
 const styles = StyleSheet.create({
 
-    navBar: {
-    },
     navList: {
         listStyleType: 'none',
         margin: '0 0 2vw',

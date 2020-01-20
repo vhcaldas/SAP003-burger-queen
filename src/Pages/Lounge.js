@@ -43,12 +43,12 @@ const Lounge = () => {
 
     const sendOrder = () => {
 
-        if (client && table) {
+        if (client && table && order.length!==0) {
             const command = {
                 name: client,
-                table: table,
-                order: order,
-                total: total,
+                table,
+                order,
+                total,
                 time: new Date().toLocaleString('pt-BR'),
                 getTime: new Date().getTime(),
                 status: 'Pendente',
@@ -62,7 +62,9 @@ const Lounge = () => {
         } else if (!client) {
             alert.show('Digite o nome do Cliente.');
         } else if (!table) {
-            alert.show('Digite o número da mesa');
+            alert.show('Digite o número da mesa.');
+        } else if (!order.length) {
+            alert.show('Faça o Pedido.');
         }
     }
 
@@ -77,14 +79,15 @@ const Lounge = () => {
     const addOptionsExtras = () => {
         const updatedItem = {
             ...modal.item,
-            name: `${modal.item.name} Opções: ${options} Extras (+ R$ 1,00): ${extras}`
+            name: `${modal.item.name} Opções: ${options} Extras (+ R$ 1,00): ${extras}`, 
+            extrasPrice: (extras.length !== 0 ? 1 : 0)
         };
         addOrder(updatedItem);
         setModal({ status: false })
         setExtras([]);
     }
 
-    const addOrder = (selectedItem, updatedItem) => {
+    const addOrder = (selectedItem) => {
         const findItem = order.find(item => item.name === selectedItem.name)
         if (findItem) {
             findItem.quantity += 1;
@@ -96,8 +99,9 @@ const Lounge = () => {
     }
 
     const calcTotal = () => order.reduce((acc, calcTotal) => {
-        if (extras.length !== 0) {
-            return acc + ((calcTotal.price + 1) * calcTotal.quantity)
+        //console.log(extras.length)
+        if (calcTotal.extrasPrice) {
+            return acc + ((calcTotal.price + calcTotal.extrasPrice) * calcTotal.quantity)
         } else {
             return acc + (calcTotal.price * calcTotal.quantity)
         }
