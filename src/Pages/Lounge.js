@@ -225,24 +225,28 @@ const Lounge = () => {
                         </div>
                     </section>
                 </div>
-                <h1 className={css(styles.orderDoneTitle)}>Pedidos Concluídos</h1>
-                <footer className={css(styles.doneOrdersSection)}>
-                    {
-                        orderDone.map((command) => (
-                            <CardDoneOrder
-                                name={command.name}
-                                desk={command.table}
-                                order={command.order.map((i) => (
-                                    <p className={css(styles.order)}>{i.quantity + ' '}
-                                        {i.name}</p>))
-                                }
-                                time={command.time}
-                                endTime={command.endTime}
+                <div>
+                    <div>
+                        <h1 className={css(styles.orderDoneTitle)}>Pedidos Concluídos</h1>
+                    </div>
+                    <footer className={css(styles.doneOrdersSection)}>
+                        {
+                            orderDone.map((command) => (
+                                <CardDoneOrder
+                                    name={command.name}
+                                    desk={command.table}
+                                    order={command.order.map((i) => (
+                                        <p className={css(styles.order)}>{i.quantity + ' '}
+                                            {i.name}</p>))
+                                    }
+                                    time={command.time}
+                                    endTime={command.endTime}
 
-                            />
+                                />
 
-                        ))}
-                </footer>
+                            ))}
+                    </footer>
+                </div>
             </main>
         </div >
     )
