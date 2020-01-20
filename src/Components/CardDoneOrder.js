@@ -24,7 +24,9 @@ const styles = StyleSheet.create({
         fontSize: '0.8rem',
         margin: '1vw',
         padding: '2vw',
-        height: 'min-content',
+        height: '20vh',
+        width: '30vw',
+        overflow:'scroll',
     },
 
     cardItens: {

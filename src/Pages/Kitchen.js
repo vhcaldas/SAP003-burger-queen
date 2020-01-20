@@ -39,9 +39,6 @@ const Kitchen = () => {
                     endTime: new Date().toLocaleString('pt-BR'),
                     getEndTime: new Date().getTime(),
                 });
-            const filteredOrders = orderPending.filter((orders) => orders.status === 'Pendente');
-            setOrderDone([...orderDone, command])
-            setOrderPending([...filteredOrders])
         }
     }
 

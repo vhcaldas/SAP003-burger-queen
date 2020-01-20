@@ -14,7 +14,6 @@ const Lounge = () => {
     const [menuType, setMenuType] = useState([]);
     const [menu, setMenu] = useState([]);
     const [order, setOrder] = useState([]);
-    const [total, setTotal] = useState([]);
     const [table, setTable] = useState(0);
     const [client, setClient] = useState('');
     const [modal, setModal] = useState({ status: false });
@@ -36,7 +35,7 @@ const Lounge = () => {
 
     const filterMenu = (event) => {
         const dish = event.target.id;
-        const validate = (dish === 'breakfast') ? true : false;
+        const validate = (dish === 'breakfast');
         const filteredMenu = menu.filter((elem) => elem.breakfast === validate);
         return setMenuType(filteredMenu);
     }
@@ -48,7 +47,7 @@ const Lounge = () => {
                 name: client,
                 table,
                 order,
-                total,
+                total: calcTotal(),
                 time: new Date().toLocaleString('pt-BR'),
                 getTime: new Date().getTime(),
                 status: 'Pendente',
@@ -57,7 +56,6 @@ const Lounge = () => {
                 setClient("")
                 setTable(0)
                 setOrder([])
-                setTotal([])
             })
         } else if (!client) {
             alert.show('Digite o nome do Cliente.');
@@ -79,7 +77,7 @@ const Lounge = () => {
     const addOptionsExtras = () => {
         const updatedItem = {
             ...modal.item,
-            name: `${modal.item.name} Opções: ${options} Extras (+ R$ 1,00): ${extras}`, 
+            name: `${modal.item.name} Opções: ${options} Extras: ${extras}`, 
             extrasPrice: (extras.length !== 0 ? 1 : 0)
         };
         addOrder(updatedItem);
@@ -108,9 +106,7 @@ const Lounge = () => {
     }, 0)
 
     const removeItem = (product) => {
-        if (order.includes(product)) {
-            product.quantity -= 1;
-        }
+        product.quantity -= 1;
         const remove = order.filter(el => el.quantity > 0);
         setOrder([...remove]);
     }
