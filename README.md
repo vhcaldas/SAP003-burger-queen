@@ -12,7 +12,7 @@
 ## 1. Resumo do projeto
 
 
-Foi criado uma interface para ser utilizado em um _tablet_, onde é possível realizar pedidos e enviá-los
+Foi criada uma interface para ser utilizado em um _tablet_, onde é possível realizar pedidos e enviá-los
 para a cozinha para que sejam preparados de forma ordenada e eficiente.
 
 Seguem as informações sobre o cliente:
