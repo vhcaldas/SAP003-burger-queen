@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import { StyleSheet, css } from 'aphrodite';
 import Header from './Components/Header/Header';
+import Delivery from './Pages/Delivery'
 
 
 function App() {
@@ -20,8 +21,7 @@ function App() {
         <Switch>
           <Route path="/Lounge" component={Lounge} />
           <Route path="/Kitchen" component={Kitchen} />
-          <Route path="/">
-          </Route>
+          <Route path="/Delivery" component={Delivery} />
         </Switch>
       </div>
     </Router>

@@ -6,7 +6,7 @@ import MenuButton from '../Components/MenuButton';
 import MainMenuButton from '../Components/MainMenuButton';
 import Order from '../Components/Order';
 import Button from '../Components/Button';
-import { useAlert } from 'react-alert'
+import { useAlert } from 'react-alert';
 
 
 const Lounge = () => {
@@ -22,6 +22,11 @@ const Lounge = () => {
     const alert = useAlert();
 
     useEffect(() => {
+        searchMenu();
+    }, []);
+
+
+    const searchMenu = () => {
         db.collection("Menu")
             .get()
             .then((snapshot) => {
@@ -31,7 +36,7 @@ const Lounge = () => {
                 }));
                 setMenu(findMenu);
             })
-    });
+    }
 
     const filterMenu = (event) => {
         const dish = event.target.id;
@@ -42,7 +47,7 @@ const Lounge = () => {
 
     const sendOrder = () => {
 
-        if (client && table && order.length!==0) {
+        if (client && table && order.length !== 0) {
             const command = {
                 name: client,
                 table,
@@ -77,7 +82,7 @@ const Lounge = () => {
     const addOptionsExtras = () => {
         const updatedItem = {
             ...modal.item,
-            name: `${modal.item.name} Opções: ${options} Extras: ${extras}`, 
+            name: `${modal.item.name} Opções: ${options} Extras: ${extras}`,
             extrasPrice: (extras.length !== 0 ? 1 : 0)
         };
         addOrder(updatedItem);
@@ -110,6 +115,7 @@ const Lounge = () => {
         const remove = order.filter(el => el.quantity > 0);
         setOrder([...remove]);
     }
+
 
     return (
         <div>
@@ -204,7 +210,7 @@ const Lounge = () => {
                     </section>
                 </div>
             </main>
-        </div >
+        </div>
     )
 }
 
@@ -280,7 +286,6 @@ const styles = StyleSheet.create({
         borderColor: '#BBA250',
         fontSize: '0.8rem',
     },
-
 })
 
 export default Lounge;

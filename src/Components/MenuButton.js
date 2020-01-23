@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     menuButton: {
         backgroundColor: '#FFB800',
         color: '#0C0804',
-        width: '15vw',
+        width: '17vw',
         height: 'auto',
         margin: '2vw 1.5vw 1vw 1.5vw',
         fontSize: '0.9rem',

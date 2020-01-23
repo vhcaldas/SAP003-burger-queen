@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   mainMenu: {
     backgroundColor: '#0C0804',
     color: '#F4F4F4',
-    width: '17vw',
+    width: '20vw',
     height: 'auto',
     marginLeft: '1vw',
     fontSize: '1rem',
