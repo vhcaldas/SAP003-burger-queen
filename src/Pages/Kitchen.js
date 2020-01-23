@@ -75,6 +75,7 @@ const Kitchen = () => {
                 {
                     orderDone.map((command) => (
                         <CardDoneOrder
+                            className={css(styles.card)}
                             name={command.name}
                             desk={command.table}
                             order={command.order.map((i) => (
@@ -99,6 +100,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         padding: '1vw',
         justifyContent: 'center',
+    },
+
+    card:{
+        color: 'blue',
     },
 
     orderTitle: {

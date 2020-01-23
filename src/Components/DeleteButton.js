@@ -8,7 +8,7 @@ const DeleteButton = (props) => {
         <IconButton aria-label="delete"
             className={css(styles.deleteButton)}
             onClick={props.handleClick}>
-            <DeleteIcon fontSize="small" />
+            <DeleteIcon fontSize="small"/>
         </IconButton>
     )
 }
