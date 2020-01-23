@@ -13,7 +13,7 @@ const Nav = () => {
                     <Link to="/Kitchen" className={css(styles.navName)}>Cozinha</Link>
                 </li>
                 <li className={css(styles.navLink)}>
-                    <Link to="/Delivery" className={css(styles.navName)}>Entrega</Link>
+                    <Link to="/Delivery" className={css(styles.navName)}>Pedidos Prontos</Link>
                 </li>
             </ul>
         </nav>
@@ -45,9 +45,9 @@ const styles = StyleSheet.create({
         color: '#0C0804',
         fontFamily: ['Montserrat', 'sans-serif'],
         src: "url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap')",
-        fontSize: '1.5rem',
+        fontSize: '1.0rem',
         borderStyle: 'dotted',
-        borderRadius: '2vw',
+        borderRadius: '0.5em',
         borderColor: '#FFB800',
         padding: '2vw'
 

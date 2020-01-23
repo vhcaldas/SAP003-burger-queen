@@ -170,16 +170,18 @@ const Lounge = () => {
                                         <label>{modalOptions}</label>
                                     </div>
                                 )}
-                                <Button
-                                    id={'send-order'}
-                                    handleClick={() => addOptionsExtras()}
-                                    title='Adicionar Pedido'
-                                />
-                                <Button
-                                    id={'send-order'}
-                                    handleClick={() => setModal({ status: false })}
-                                    title='Voltar'
-                                />
+                                <div className={css(styles.secExtrasButtons)}>
+                                    <Button
+                                        id={'send-order'}
+                                        handleClick={() => addOptionsExtras()}
+                                        title='Adicionar Pedido'
+                                    />
+                                    <Button
+                                        id={'send-order'}
+                                        handleClick={() => setModal({ status: false })}
+                                        title='Voltar'
+                                    />
+                                </div>
                             </div>
                         ) : false}
                     </section>
@@ -200,7 +202,7 @@ const Lounge = () => {
                             )
                         }
                         <p className={css(styles.orderTotal)}>Valor Total: R$ {calcTotal()},00 </p>
-                        <div>
+                        <div className={css(styles.orderButton)}>
                             <Button
                                 id={'send-order'}
                                 handleClick={() => sendOrder(order)}
@@ -265,14 +267,20 @@ const styles = StyleSheet.create({
         flexFlow: ['column', 'wrap'],
     },
 
+    orderButton: {
+        display: 'flex',
+        justifyContent: 'center',
+    },
+
     orderTitle: {
         textAlign: 'center',
         margin: '1vw 0',
         color: '#0C0804',
+        fontSize: '1.0rem'
     },
 
     orderTotal: {
-        fontSize: '1.0rem',
+        fontSize: '0.8rem',
         fontWeight: '600',
         margin: '1vw 1vw 0'
     },
@@ -285,6 +293,11 @@ const styles = StyleSheet.create({
         margin: '0',
         borderColor: '#BBA250',
         fontSize: '0.8rem',
+    },
+
+    secExtrasButtons: {
+        display: 'flex',
+        justifyContent: 'center',
     },
 })
 

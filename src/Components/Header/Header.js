@@ -12,7 +12,7 @@ const Header = () => {
 
 const styles = StyleSheet.create({
     header: {
-        height: '20vh',
+        height: '15vh',
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'column'

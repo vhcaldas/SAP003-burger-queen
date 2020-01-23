@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
         width: '17vw',
         height: 'auto',
         margin: '2vw 1.5vw 1vw 1.5vw',
-        fontSize: '0.9rem',
+        fontSize: '0.8rem',
         borderRadius: '2vw',
         fontWeight: 'bold',
         border: 'none',
