@@ -7,7 +7,6 @@ import MainMenuButton from '../Components/MainMenuButton';
 import Order from '../Components/Order';
 import Button from '../Components/Button';
 import { useAlert } from 'react-alert';
-import CardDoneOrder from '../Components/CardDoneOrder';
 
 
 const Lounge = () => {
@@ -20,12 +19,10 @@ const Lounge = () => {
     const [modal, setModal] = useState({ status: false });
     const [options, setOptions] = useState("");
     const [extras, setExtras] = useState("");
-    const [orderDone, setOrderDone] = useState([]);
     const alert = useAlert();
 
     useEffect(() => {
         searchMenu();
-        displayDoneOrders();
     }, []);
 
 
@@ -38,19 +35,6 @@ const Lounge = () => {
                     ...elem.data()
                 }));
                 setMenu(findMenu);
-            })
-    }
-
-    const displayDoneOrders = () => {
-        db.collection("Pedidos")
-            .where('status', '==', 'Pronto')
-            .get()
-            .then((snapshot) => {
-                const findDoneOrder = snapshot.docs.map((elem) => ({
-                    id: elem.id,
-                    ...elem.data()
-                }));
-                setOrderDone(findDoneOrder);
             })
     }
 
@@ -225,30 +209,8 @@ const Lounge = () => {
                         </div>
                     </section>
                 </div>
-                <div>
-                    <div>
-                        <h1 className={css(styles.orderDoneTitle)}>Pedidos Concluídos</h1>
-                    </div>
-                    <footer className={css(styles.doneOrdersSection)}>
-                        {
-                            orderDone.map((command) => (
-                                <CardDoneOrder
-                                    name={command.name}
-                                    desk={command.table}
-                                    order={command.order.map((i) => (
-                                        <p className={css(styles.order)}>{i.quantity + ' '}
-                                            {i.name}</p>))
-                                    }
-                                    time={command.time}
-                                    endTime={command.endTime}
-
-                                />
-
-                            ))}
-                    </footer>
-                </div>
             </main>
-        </div >
+        </div>
     )
 }
 
@@ -303,12 +265,6 @@ const styles = StyleSheet.create({
         flexFlow: ['column', 'wrap'],
     },
 
-    orderDoneTitle: {
-        textAlign: 'left',
-        fontSize: '3vw',
-
-    },
-
     orderTitle: {
         textAlign: 'center',
         margin: '1vw 0',
@@ -330,13 +286,6 @@ const styles = StyleSheet.create({
         borderColor: '#BBA250',
         fontSize: '0.8rem',
     },
-
-    doneOrdersSection: {
-        display: 'flex',
-        flexFlow: ['row', 'wrap'],
-        justifyContent: 'center',
-    },
-
 })
 
 export default Lounge;

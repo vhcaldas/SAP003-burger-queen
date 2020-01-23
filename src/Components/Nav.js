@@ -12,6 +12,9 @@ const Nav = () => {
                 <li className={css(styles.navLink)}>
                     <Link to="/Kitchen" className={css(styles.navName)}>Cozinha</Link>
                 </li>
+                <li className={css(styles.navLink)}>
+                    <Link to="/Delivery" className={css(styles.navName)}>Entrega</Link>
+                </li>
             </ul>
         </nav>
     )
