@@ -48,24 +48,26 @@ const Kitchen = () => {
                 <h1 className={css(styles.orderTitle)}>Pedidos Pendentes</h1>
                 {
                     orderPending.map((command) => (
-                        <CardPendingOrder
-                            name={command.name}
-                            desk={command.table}
-                            order={command.order.map((i) => (
-                                <p className={css(styles.order)}>{i.quantity + ' '}
-                                    {i.name}</p>
-                            ))
-                            }
-                            time={command.time}
-                            status={command.status}
-                            changeStatus={
-                                (event) => {
-                                    event.preventDefault();
-                                    updateStatus(command)
+                        <div className={css(styles.cardsDiv)}>
+                            <CardPendingOrder
+                                name={command.name}
+                                desk={command.table}
+                                order={command.order.map((i) => (
+                                    <p className={css(styles.order)}>{i.quantity + ' '}
+                                        {i.name}</p>
+                                ))
                                 }
-                            }
-                            title={'Pronto!'}
-                        />
+                                time={command.time}
+                                status={command.status}
+                                changeStatus={
+                                    (event) => {
+                                        event.preventDefault();
+                                        updateStatus(command)
+                                    }
+                                }
+                                title={'Pronto!'}
+                            />
+                        </div>
                     )
                     )
                 }
@@ -104,6 +106,11 @@ const styles = StyleSheet.create({
 
     card:{
         color: 'blue',
+    },
+
+    cardsDiv:{
+        display: 'flex',
+        flexWrap: 'wrap',
     },
 
     orderTitle: {

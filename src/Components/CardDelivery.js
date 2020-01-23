@@ -24,14 +24,13 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexFlow: 'column',
         alignItems: 'center',
-        fontSize: '0.8rem',
+        fontSize: '0.7rem',
         margin: '1vw',
-        padding: '2vw',
-        height: '15vh',
+        padding: '3vw',
+        height: 'auto',
         width: '30vw',
-        overflow:'scroll',
         borderRadius: '2vw',
-        border: ' 1vw solid #738862',
+        border: '0.5em solid #738862',
     },
 
     cardItens: {
@@ -47,7 +46,7 @@ const styles = StyleSheet.create({
     },
 
     orderButton:{
-        backgroundColor: 'green',
+        marginBottom: '2vw'
     },
 
     order: {

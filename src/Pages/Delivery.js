@@ -35,7 +35,7 @@ const Delivery = () => {
                 <section className={css(styles.doneOrdersSection)}>
                     {
                         orderDone.map((command) => (
-                            <div>
+                            <div className={css(styles.cardsDiv)}>
                                 <CardDelivery
                                     name={command.name}
                                     desk={command.table}
@@ -51,7 +51,7 @@ const Delivery = () => {
                                             deleteOrderFromDatabase(command)
                                         }
                                     }
-                                    title={'Pedido Entregue!'}
+                                    title={'Entregue!'}
                                 />
                             </div>
                         ))}
@@ -73,7 +73,12 @@ const styles = StyleSheet.create({
     },
 
     orderDoneTitle: {
-        fontSize: '4vw',
+        fontSize: '1.5rem',
+    },
+
+    cardsDiv:{
+        display: 'flex',
+        flexWrap: 'wrap',
     },
 
     doneOrdersSection: {
