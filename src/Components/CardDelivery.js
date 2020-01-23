@@ -5,8 +5,6 @@ import Button from './Button';
 const CardDelivery = (props) => {
     return (
         <div key={props.id} className={css(styles.card)}>
-            <p className={css(styles.cardItens)}> Horário Inicial: {props.time}</p>
-            <p className={css(styles.cardItens)}> Horário Final: {props.endTime}</p>
             <p className={css(styles.cardItens)}>Nome do Cliente: {props.name} | Mesa: {props.desk}</p>
             <p className={css(styles.cardItensOrder)}>Pedido:</p>
             {props.order}
