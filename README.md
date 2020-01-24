@@ -106,6 +106,22 @@ Eu como chefe de cozinha quero ver os pedidos dos clientes em ordem, poder marca
 * Foram feitos _testes_ de usabilidade e incorporado o _feedback_ do usuário.
 * Foi feito o _deploy_ do aplicativo.
 
+***
+#### [História de usuário 3] Garçom/Garçonete deve ver os pedidos prontos para servir
+
+Eu como garçom/garçonete quero ver os pedidos que estão prontos para entregá-los rapidamente aos clientes.
+Critérios de aceitação
+
+    Ver a lista de pedidos prontos para servir.
+    Marque os pedidos que foram entregues.
+
+Definição de pronto
+
+    Você fez testes de usabilidade e incorporou o feedback do usuário.
+    Você deu deploy de seu aplicativo.
+    Os dados devem ser mantidos intactos, mesmo depois que um pedido terminado. Tudo isso para poder ter estatísticas no futuro.
+
+
 ## Checklist
 
 ### `README.md`
@@ -136,3 +152,15 @@ Eu como chefe de cozinha quero ver os pedidos dos clientes em ordem, poder marca
 * [ ] Funciona bem em tablets.
 * [ ] Fácil utilização em telas sensíveis ao toque.
 * [ ] Status atual do pedido sempre visível enquanto fazemos um pedido.
+
+#### HU 3: Entrega de pedidos
+
+* [ ] Visualizar pedidos pendentes para entrega.
+* [ ] Marcar pedido como entregue ao cliente.
+
+#### UX
+
+* [ ] Funciona bem em tablets.
+* [ ] Fácil utilização em telas sensíveis ao toque.
+* [ ] Status atual do pedido sempre visível enquanto fazemos um pedido.
+
