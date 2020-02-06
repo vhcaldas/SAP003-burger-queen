@@ -22,8 +22,13 @@ const styles = StyleSheet.create({
         width: '25vw',
         height: '2vh',
         margin: '0vw 3vw 1vw 3vw',
-        padding: '1vw'
-    }
+        padding: '1vw',
+
+        '@media (min-width: 992px)': {
+            height: '6vh',
+        }
+    },
+
 
 })
 
