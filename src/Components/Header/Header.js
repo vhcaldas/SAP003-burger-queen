@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'column',
         '@media (min-width: 992px)': {
-            height: '70vh',
+            height: '60vh',
         }
     },
 
