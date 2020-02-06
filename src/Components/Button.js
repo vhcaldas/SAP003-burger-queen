@@ -19,8 +19,13 @@ const styles = StyleSheet.create({
         borderRadius: '2vw',
         fontWeight: 'bold',
         border: 'none',
-        padding: '1vw'
+        padding: '1vw',
+        
+        '@media (min-width: 992px)': {
+            height: 'auto',
+        }
     }
+    
 })
 
 export default Button;

@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexFlow: 'column',
         alignItems: 'center',
-        fontSize: '0.5rem',
+        fontSize: '1rem',
         margin: '1vw',
         padding: '2vw',
         height: 'auto',

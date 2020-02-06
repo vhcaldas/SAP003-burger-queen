@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: '2vw',
         border: '0.5em solid #FFB800',
-        fontSize: '0.5rem',
+        fontSize: '1rem',
         margin: '1vw',
         padding: '1vw',
         height: 'auto',

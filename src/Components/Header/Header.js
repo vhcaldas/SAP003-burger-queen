@@ -15,13 +15,16 @@ const styles = StyleSheet.create({
         height: '15vh',
         display: 'flex',
         alignItems: 'center',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        '@media (min-width: 992px)': {
+            height: '70vh',
+        }
     },
 
     image: {
         height: '100%',
         maxWidth: '100%'
-    }
+    },
 })
 
 export default Header; 

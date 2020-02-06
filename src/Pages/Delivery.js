@@ -13,18 +13,29 @@ const Delivery = () => {
 
     const displayDoneOrders = () => {
         db.collection("Pedidos")
-            .where('status', '==', 'Pronto')
-            .get()
-            .then((snapshot) => {
-                const findDoneOrder = snapshot.docs.map((elem) => ({
-                    id: elem.id,
-                    ...elem.data()
-                }));
-                setOrderDone(findDoneOrder);
-            })
+            .where("status", "==", 'Pronto')
+            .onSnapshot(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    const findOrders = querySnapshot.docs.map((showOrder) => ({
+                        id: showOrder.id,
+                        ...showOrder.data(),
+                    }))
+                    setOrderDone(findOrders)
+                });
+            });
     }
 
-    const deleteOrderFromDatabase = (command) => {
+    const updateCollection = (command) => {
+
+        if (command.status === 'Pronto') {
+            command.status = 'Entregue';
+            db.collection("Pedidos")
+                .doc(command.id)
+                .update({
+                    status: "Entregue",
+                    endTime: new Date().toLocaleString('pt-BR')
+                });
+        }
 
     }
 
@@ -48,7 +59,7 @@ const Delivery = () => {
                                     changeStatus={
                                         (event) => {
                                             event.preventDefault();
-                                            deleteOrderFromDatabase(command)
+                                            updateCollection(command);
                                         }
                                     }
                                     title={'Entregue!'}
