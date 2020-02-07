@@ -128,6 +128,6 @@ _Eu como chefe de cozinha quero ver os pedidos dos clientes em ordem, poder marc
 
 ### UX
 
-* [ ] Funciona bem em tablets.
+* [ ] Funciona bem em tablets e em computadores.
 * [ ] Fácil utilização em telas sensíveis ao toque.
 * [ ] Status atual do pedido sempre visível enquanto fazemos um pedido.
