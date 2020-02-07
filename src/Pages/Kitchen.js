@@ -18,16 +18,14 @@ const Kitchen = () => {
     const displayOrders = (status, state) => {
         db.collection("Pedidos")
             .where("status", "==", status)
-            .onSnapshot(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                    const findOrders = querySnapshot.docs.map((showOrder) => ({
-                        id: showOrder.id,
-                        ...showOrder.data(),
-                    }))
-                    state(findOrders)
-                });
+            .onSnapshot(function (querySnapshot) {
+                const findOrders = querySnapshot.docs.map((showOrder) => ({
+                    id: showOrder.id,
+                    ...showOrder.data(),
+                }))
+                state(findOrders)
             });
-    }
+    };
 
     const updateStatus = (command) => {
         if (command.status === 'Pendente') {
@@ -104,11 +102,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 
-    card:{
+    card: {
         color: 'blue',
     },
 
-    cardsDiv:{
+    cardsDiv: {
         display: 'flex',
         flexWrap: 'wrap',
     },

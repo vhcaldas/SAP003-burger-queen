@@ -14,62 +14,60 @@ const Delivery = () => {
     const displayDoneOrders = () => {
         db.collection("Pedidos")
             .where("status", "==", 'Pronto')
-            .onSnapshot(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                    const findOrders = querySnapshot.docs.map((showOrder) => ({
-                        id: showOrder.id,
-                        ...showOrder.data(),
-                    }))
-                    setOrderDone(findOrders)
-                });
+            .onSnapshot((querySnapshot) => {
+                const findOrders = querySnapshot.docs.map((showOrder) => ({
+                    id: showOrder.id,
+                    ...showOrder.data(),
+                }))
+                setOrderDone(findOrders)
+            });
+    };
+
+const updateCollection = (command) => {
+
+    if (command.status === 'Pronto') {
+        command.status = 'Entregue';
+        db.collection("Pedidos")
+            .doc(command.id)
+            .update({
+                status: "Entregue",
+                endTime: new Date().toLocaleString('pt-BR')
             });
     }
 
-    const updateCollection = (command) => {
+}
 
-        if (command.status === 'Pronto') {
-            command.status = 'Entregue';
-            db.collection("Pedidos")
-                .doc(command.id)
-                .update({
-                    status: "Entregue",
-                    endTime: new Date().toLocaleString('pt-BR')
-                });
-        }
-
-    }
-
-    return (
-        <div>
-            <main className={css(styles.mainDelivery)}>
-                <h1 className={css(styles.orderDoneTitle)}>Pedidos Concluídos</h1>
-                <section className={css(styles.doneOrdersSection)}>
-                    {
-                        orderDone.map((command) => (
-                            <div className={css(styles.cardsDiv)}>
-                                <CardDelivery
-                                    name={command.name}
-                                    desk={command.table}
-                                    order={command.order.map((i) => (
-                                        <p className={css(styles.order)}>{i.quantity + ' '}
-                                            {i.name}</p>))
+return (
+    <div>
+        <main className={css(styles.mainDelivery)}>
+            <h1 className={css(styles.orderDoneTitle)}>Pedidos Concluídos</h1>
+            <section className={css(styles.doneOrdersSection)}>
+                {
+                    orderDone.map((command) => (
+                        <div className={css(styles.cardsDiv)}>
+                            <CardDelivery
+                                name={command.name}
+                                desk={command.table}
+                                order={command.order.map((i) => (
+                                    <p className={css(styles.order)}>{i.quantity + ' '}
+                                        {i.name}</p>))
+                                }
+                                time={command.time}
+                                endTime={command.endTime}
+                                changeStatus={
+                                    (event) => {
+                                        event.preventDefault();
+                                        updateCollection(command);
                                     }
-                                    time={command.time}
-                                    endTime={command.endTime}
-                                    changeStatus={
-                                        (event) => {
-                                            event.preventDefault();
-                                            updateCollection(command);
-                                        }
-                                    }
-                                    title={'Entregue!'}
-                                />
-                            </div>
-                        ))}
-                </section>
-            </main>
-        </div>
-    )
+                                }
+                                title={'Entregue!'}
+                            />
+                        </div>
+                    ))}
+            </section>
+        </main>
+    </div>
+)
 }
 
 const styles = StyleSheet.create({
@@ -87,7 +85,7 @@ const styles = StyleSheet.create({
         fontSize: '1.5rem',
     },
 
-    cardsDiv:{
+    cardsDiv: {
         display: 'flex',
         flexWrap: 'wrap',
     },
