@@ -12,8 +12,8 @@
 ## 1. Resumo do projeto
 
 
-Foi criado uma interface para ser utilizado em um _tablet_, onde é possível realizar pedidos e enviá-los
-para a cozinha para que sejam preparados de forma ordenada e eficiente.
+Foi criada uma interface para ser utilizada em um _tablet_ e no computador, onde é possível realizar pedidos e enviá-los
+para a cozinha para que sejam preparados de forma ordenada e eficiente em um Restaurante.
 
 Seguem as informações sobre o cliente:
 
@@ -55,7 +55,7 @@ Seguem as informações sobre o cliente:
 >Nossos clientes são bastante indecisos, por isso é muito comum que eles mudem o
 >seu pedido várias vezes antes de finalizar.
 
-A interface mostra os dois menus (café da manhã e restante do dia), cada
+A interface filtra e exibe os dois menus (café da manhã e restante do dia), cada
 um com todos os seus _produtos_. O usuário pode escolher que _produtos_
 adicionar e a interface mostra o _resumo do pedido_ com o custo total.
 
@@ -63,17 +63,17 @@ O aplicativo pode ser visualizado junto ao link: https://sap003-burguer-queen.fi
 
 ## 2. Objetivos de aprendizagem e Considerações Gerais
 
-O objetivo principal envolveu o aprendizado da construção de uma interface web usando _React_. A interface também foi planejada especificamente para rodar em **tablets**. O aplicativo é um _Single Page App_.
+O objetivo principal envolveu o aprendizado da construção de uma interface web usando _React_. A interface também foi planejada especificamente para rodar em **tablets** e em computadores. O aplicativo é um _Single Page App_.
 
 O aplicativo utilizou scripts `npm-scripts` e teve `start`, `build` e `deploy`, que são responsáveis por iniciar, empacotar e implantar o aplicativo, respectivamente.
 
-## 3. Critérios de aceitação mínimos cumpridos pelo projeto
+## 3. Critérios de aceitação mínimos cumpridos pelo projeto.
 
 
 #### [História de usuário 1] Garçom/Garçonete deve poder anotar o seu pedido
 
-Eu como cliente quero poder anotar o meu pedido saber o valor de cada 
-produto e poder enviar o pedido para a cozinha para ser preparado.
+_Eu como cliente quero poder anotar o meu pedido saber o valor de cada 
+produto e poder enviar o pedido para a cozinha para ser preparado._
 
 ##### Critérios de aceitação que foram atendidos.
 
@@ -81,7 +81,7 @@ produto e poder enviar o pedido para a cozinha para ser preparado.
 * Adicionar produtos aos pedidos.
 * Excluir produtos.
 * Ver resumo e o total da compra.
-* Enviar o pedido para a cozinha (guardar em algum banco de dados).
+* Enviar o pedido para a cozinha (dados guardados em um banco de dados criado no Firebase Firestore).
 * Funcionar bem e se adequar a um _tablet_.
 
 ##### Definição de pronto
@@ -93,13 +93,13 @@ produto e poder enviar o pedido para a cozinha para ser preparado.
 
 #### [História de usuário 2] Chefe de cozinha deve ver os pedidos
 
-Eu como chefe de cozinha quero ver os pedidos dos clientes em ordem, poder marcar que estão prontos e poder notificar os garçons/garçonetes que o pedido está pronto para ser entregue ao cliente.
+_Eu como chefe de cozinha quero ver os pedidos dos clientes em ordem, poder marcar que estão prontos e poder notificar os garçons/garçonetes que o pedido está pronto para ser entregue ao cliente._
 
 ##### Critérios de aceitação que foram atendidos
 
 * Ver os pedidos à medida em que são feitos.
 * Marcar os pedidos que foram preparados e estão prontos para serem servidos.
-* Ver o tempo que levou para preparar o pedido desde que chegou, até ser marcado como concluído.
+* Ver o tempo final de preparação do produto, após ser marcado como entregue.
 
 ##### Definição de pronto
 
@@ -107,11 +107,6 @@ Eu como chefe de cozinha quero ver os pedidos dos clientes em ordem, poder marca
 * Foi feito o _deploy_ do aplicativo.
 
 ## Checklist
-
-### `README.md`
-
-* [ ] Documentação do processo de design.
-* [ ] Inclui informações para desenvolvedores (dependências, instalação, uso, testes...)
 
 #### HU
 
