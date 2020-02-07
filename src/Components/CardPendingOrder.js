@@ -26,16 +26,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: '2vw',
         border: '0.5em solid #FFB800',
-        fontSize: '1rem',
+        fontSize: '0.7rem',
         margin: '1vw',
-        padding: '1vw',
+        padding: '2vw',
         height: 'auto',
         width: '30vw',
     },
     cardItens: {
         margin: '1vw',
         textAlign: 'center',
-        padding: '0',
         height: '1.125em',
     },
     cardItensOrder: {
