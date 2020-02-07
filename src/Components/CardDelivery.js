@@ -29,6 +29,9 @@ const styles = StyleSheet.create({
         width: '30vw',
         borderRadius: '2vw',
         border: '0.5em solid #738862',
+        '@media (min-width: 992px)': {
+            fontSize: '0.9rem',
+        }
     },
 
     cardItens: {

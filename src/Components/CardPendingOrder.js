@@ -31,6 +31,9 @@ const styles = StyleSheet.create({
         padding: '2vw',
         height: 'auto',
         width: '30vw',
+        '@media (min-width: 992px)': {
+            fontSize: '0.9rem',
+        }
     },
     cardItens: {
         margin: '1vw',
